@@ -51,7 +51,7 @@ jobs:
             docker stop portfolio-app || true
             docker rm portfolio-app || true
             docker pull "$IMAGE"
-            docker run -d --name portfolio-app --restart always -p 3001:80 "$IMAGE"
+            docker run -d --name portfolio-app --restart always -p 3200:80 "$IMAGE"
         env:
           IMAGE: ${{ env.IMAGE }}
           GHCR_ACTOR: ${{ github.actor }}
