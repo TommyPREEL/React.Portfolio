@@ -9,6 +9,7 @@ jobs:
   build-and-push:
     name: Build, Push and Deploy
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
       packages: write
@@ -45,6 +46,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 5m
           envs: GHCR_ACTOR,GHCR_TOKEN,IMAGE,DEPLOY_PATH
           script: |
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_ACTOR" --password-stdin
