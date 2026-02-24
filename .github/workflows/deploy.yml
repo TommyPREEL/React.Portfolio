@@ -49,6 +49,7 @@ jobs:
           script: |
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_ACTOR" --password-stdin
             cd "$DEPLOY_PATH"
+            export IMAGE="$IMAGE"
             docker compose pull
             docker compose up -d
         env:
