@@ -1,6 +1,6 @@
 services:
   portfolio-app:
-    image: ${IMAGE:?IMAGE environment variable is required}
+    image: ${IMAGE}
     container_name: portfolio-app
     restart: always
     ports:

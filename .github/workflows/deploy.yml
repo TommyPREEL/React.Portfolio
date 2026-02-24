@@ -45,13 +45,13 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: IMAGE,GHCR_ACTOR,GHCR_TOKEN
+          envs: GHCR_ACTOR,GHCR_TOKEN
           script: |
-            set -e
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_ACTOR" --password-stdin
+            cd "${{ secrets.DEPLOY_PATH }}"
+            export IMAGE=ghcr.io/${{ github.repository_owner }}/portfolio-app:latest
             docker compose pull
-            docker compose up -d --remove-orphans
+            docker compose up -d
         env:
-          IMAGE: ${{ env.IMAGE }}
           GHCR_ACTOR: ${{ github.actor }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
