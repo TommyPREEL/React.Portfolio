@@ -1,0 +1,44 @@
+/**
+ * PortfolioTitle component styles - Neon effect
+ */
+
+.container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  text-align: center;
+  padding: 12px 30px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  box-shadow: 
+    0 0 20px rgba(59, 130, 246, 0.4),
+    0 0 40px rgba(59, 130, 246, 0.2),
+    inset 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  color: #f0f9ff;
+  text-shadow: 
+    0 0 10px #3b82f6,
+    0 0 20px #3b82f6,
+    0 0 40px #3b82f6,
+    0 0 80px #60a5fa;
+  letter-spacing: 3px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 8px 16px;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+}

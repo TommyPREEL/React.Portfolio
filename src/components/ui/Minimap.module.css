@@ -1,0 +1,42 @@
+/**
+ * Minimap component styles - Horizontal layout
+ */
+
+.minimap {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 200px;
+  height: 60px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+  z-index: 100;
+  padding: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.mapContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.zoneIcon {
+  position: absolute;
+  font-size: 14px;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.carIndicator {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ef4444;
+  transition: left 0.1s, top 0.1s;
+  z-index: 3;
+}

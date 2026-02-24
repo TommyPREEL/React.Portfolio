@@ -1,0 +1,569 @@
+/* =====================================================
+   PROFESSIONAL 3D PORTFOLIO
+   Modern dark theme with smooth animations
+   ===================================================== */
+
+/* =====================================================
+   CSS VARIABLES
+   ===================================================== */
+
+:root {
+  --primary: #3b82f6;
+  --primary-dark: #1e40af;
+  --accent: #fbbf24;
+  --accent-dark: #d97706;
+  --purple: #8b5cf6;
+  --pink: #ec4899;
+  --cyan: #06b6d4;
+  --success: #10b981;
+  
+  --bg-dark: #0f172a;
+  --bg-darker: #0a0e27;
+  --surface: #1e293b;
+  --surface-light: #334155;
+  
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  --border: #475569;
+  --border-light: #64748b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =====================================================
+   APP CONTAINER
+   ===================================================== */
+
+.app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(180deg, #0c1929 0%, #1e3a5f 50%, #0f172a 100%);
+  overflow: hidden;
+  color: var(--text-primary);
+}
+
+/* =====================================================
+   CANVAS
+   ===================================================== */
+
+.canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent;
+}
+
+/* =====================================================
+   LANGUAGE BUTTON
+   ===================================================== */
+
+.btn-language {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 50;
+  padding: 10px 16px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.btn-language:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.btn-language:active {
+  transform: translateY(0);
+}
+
+/* =====================================================
+   HUD INSTRUCTIONS
+   ===================================================== */
+
+.hud-instructions {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out 0.5s both;
+}
+
+.hud-instructions p {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* =====================================================
+   MODAL BACKDROP AND WRAPPER
+   ===================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9998;
+  backdrop-filter: blur(4px);
+  display: block !important;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.modal-wrapper > * {
+  pointer-events: auto;
+}
+
+/* =====================================================
+   UI OVERLAY - CONTENT PANEL
+   ===================================================== */
+
+.ui-overlay {
+  position: relative;
+  width: 90%;
+  max-width: 700px;
+  max-height: 85vh;
+  
+  background: linear-gradient(135deg, 
+    rgba(30, 41, 59, 0.98) 0%, 
+    rgba(15, 23, 42, 0.98) 100%);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(148, 163, 184, 0.3);
+  color: var(--text-primary);
+  border-radius: 16px;
+  padding: 40px;
+  pointer-events: auto;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  
+  box-shadow: 
+    0 0 60px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  
+  overflow-y: auto;
+  overflow-x: hidden;
+  animation: slideInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar styling */
+.ui-overlay::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ui-overlay::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ui-overlay::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.5);
+  border-radius: 4px;
+}
+
+.ui-overlay::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.8);
+}
+
+/* =====================================================
+   CONTENT CONTAINER
+   ===================================================== */
+
+.content-container {
+  position: relative;
+}
+
+.content-container h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.content-container h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+.content-container p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+/* =====================================================
+   CLOSE BUTTON
+   ===================================================== */
+
+.btn-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(239, 68, 68, 0.2);
+  border: 2px solid #ef4444;
+  color: #ef4444;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-close:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* =====================================================
+   ABOUT SECTION
+   ===================================================== */
+
+.content-about .highlights {
+  margin-top: 20px;
+}
+
+.content-about .highlights ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.content-about .highlights li {
+  padding: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.content-about .highlights li::before {
+  content: "✓ ";
+  color: var(--success);
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+/* =====================================================
+   PROJECTS SECTION
+   ===================================================== */
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.project-card {
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.05) 0%, 
+    rgba(139, 92, 246, 0.05) 100%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.1) 0%, 
+    rgba(139, 92, 246, 0.1) 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.15);
+}
+
+.project-card h3 {
+  color: var(--primary) !important;
+  margin: 0 0 8px 0 !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.project-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.tech-badge {
+  display: inline-block;
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--purple);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+}
+
+.project-link {
+  margin-top: auto;
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  padding: 8px 0;
+}
+
+.project-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* =====================================================
+   SKILLS SECTION
+   ===================================================== */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.skill-category {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.skill-category h3 {
+  color: var(--cyan) !important;
+  margin: 0 0 12px 0 !important;
+  font-size: 0.9rem !important;
+}
+
+.skill-category ul {
+  list-style: none;
+}
+
+.skill-category li {
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  position: relative;
+  padding-left: 16px;
+}
+
+.skill-category li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+/* =====================================================
+   CONTACT SECTION
+   ===================================================== */
+
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.contact-link {
+  display: block;
+  padding: 16px;
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.contact-link:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+
+.contact-link strong {
+  color: var(--accent);
+  margin-right: 8px;
+}
+
+/* =====================================================
+   RESPONSIVE DESIGN
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .ui-overlay {
+    width: 95%;
+    max-width: 100%;
+    max-height: 90vh;
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+  .content-container h1 {
+    font-size: 2rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-about .highlights ul {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .btn-language {
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .hud-instructions {
+    bottom: 20px;
+  }
+
+  .hud-instructions p {
+    font-size: 12px;
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ui-overlay {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .content-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
