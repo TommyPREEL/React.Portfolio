@@ -1,0 +1,7 @@
+services:
+  portfolio-app:
+    image: ${IMAGE}
+    container_name: portfolio-app
+    restart: always
+    ports:
+      - "3200:80"
