@@ -74,21 +74,11 @@ jobs:
           envs: GHCR_ACTOR,GHCR_TOKEN,IMAGE,DEPLOY_PATH
           script: |
             export PATH=$PATH:/usr/local/bin
-            if ! command -v docker &>/dev/null; then
-              curl -fsSL https://get.docker.com | sh
-              sudo usermod -aG docker "$(whoami)" || true
-              sudo systemctl start docker || true
-              timeout 30 sh -c 'until sudo docker info &>/dev/null; do sleep 1; done'
-            fi
-            DOCKER=docker
-            if ! docker info &>/dev/null; then
-              DOCKER="sudo docker"
-            fi
-            echo "$GHCR_TOKEN" | $DOCKER login ghcr.io -u "$GHCR_ACTOR" --password-stdin
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_ACTOR" --password-stdin
             cd "$DEPLOY_PATH"
             export IMAGE="$IMAGE"
-            $DOCKER compose pull
-            $DOCKER compose up -d
+            docker compose pull
+            docker compose up -d
         env:
           GHCR_ACTOR: ${{ github.actor }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
