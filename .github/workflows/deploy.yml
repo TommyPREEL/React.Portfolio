@@ -73,7 +73,7 @@ jobs:
           command_timeout: 5m
           envs: GHCR_ACTOR,GHCR_TOKEN,IMAGE,DEPLOY_PATH
           script: |
-            export PATH=$PATH:/usr/bin:/usr/local/bin
+            export PATH=$PATH:/usr/local/bin
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_ACTOR" --password-stdin
             mkdir -p "$DEPLOY_PATH"
             cd "$DEPLOY_PATH"
