@@ -73,11 +73,14 @@ jobs:
           command_timeout: 5m
           envs: GHCR_ACTOR,GHCR_TOKEN,IMAGE,DEPLOY_PATH
           script: |
+            export PATH=$PATH:/usr/bin:/usr/local/bin
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_ACTOR" --password-stdin
+            mkdir -p "$DEPLOY_PATH"
             cd "$DEPLOY_PATH"
-            export IMAGE="$IMAGE"
+            echo "IMAGE=$IMAGE" > .env
             docker compose pull
-            docker compose up -d
+            docker compose up -d --remove-orphans
+            docker image prune -f
         env:
           GHCR_ACTOR: ${{ github.actor }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
