@@ -69,7 +69,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          timeout: 30s
+          timeout: 60s
           command_timeout: 5m
           envs: GHCR_ACTOR,GHCR_TOKEN,IMAGE,DEPLOY_PATH
           script: |
