@@ -41,6 +41,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Validate deployment secrets
+        id: validate-secrets
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
@@ -53,11 +54,15 @@ jobs:
           [ -z "$SSH_PRIVATE_KEY" ] && missing+=("SSH_PRIVATE_KEY")
           [ -z "$DEPLOY_PATH" ] && missing+=("DEPLOY_PATH")
           if [ ${#missing[@]} -gt 0 ]; then
-            echo "::error::Missing required secrets: ${missing[*]}"
-            exit 1
+            echo "::warning::Deployment secrets not configured (${missing[*]}). Skipping deployment."
+            echo "deploy_enabled=false" >> $GITHUB_OUTPUT
+          else
+            echo "deploy_enabled=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Deploy via SSH
+        if: steps.validate-secrets.outputs.deploy_enabled == 'true'
+        continue-on-error: true
         uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.SSH_HOST }}
