@@ -78,8 +78,13 @@ jobs:
             mkdir -p "$DEPLOY_PATH"
             cd "$DEPLOY_PATH"
             echo "IMAGE=$IMAGE" > .env
-            docker compose pull
-            docker compose up -d --remove-orphans
+            if docker compose version > /dev/null 2>&1; then
+              COMPOSE_CMD="docker compose"
+            else
+              COMPOSE_CMD="docker-compose"
+            fi
+            $COMPOSE_CMD pull
+            $COMPOSE_CMD up -d --remove-orphans
             docker image prune -f
         env:
           GHCR_ACTOR: ${{ github.actor }}
