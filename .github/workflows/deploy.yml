@@ -41,7 +41,6 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Deploy via SSH
-        if: ${{ secrets.SSH_HOST != '' && secrets.SSH_USERNAME != '' && secrets.SSH_PRIVATE_KEY != '' && secrets.DEPLOY_PATH != '' }}
         uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.SSH_HOST }}
