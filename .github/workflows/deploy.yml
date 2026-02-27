@@ -60,6 +60,7 @@ jobs:
           timeout: 60s
           command_timeout: 5m
           script: |
+            export PATH="$PATH:/usr/local/bin:/usr/bin:/bin"
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
             mkdir -p "${{ secrets.DEPLOY_PATH }}"
             cd "${{ secrets.DEPLOY_PATH }}"
