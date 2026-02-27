@@ -59,12 +59,21 @@ jobs:
           port: ${{ secrets.SSH_PORT || 22 }}
           timeout: 60s
           command_timeout: 5m
+          envs: GHCR_ACTOR,GHCR_TOKEN,IMAGE,DEPLOY_PATH
           script: |
+            [ -f /etc/profile ] && . /etc/profile
+            [ -f ~/.profile ] && . ~/.profile
+            [ -f ~/.bashrc ] && . ~/.bashrc
             export PATH="$PATH:/usr/local/bin:/usr/bin:/bin"
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-            mkdir -p "${{ secrets.DEPLOY_PATH }}"
-            cd "${{ secrets.DEPLOY_PATH }}"
-            echo "IMAGE=${{ env.IMAGE }}" > .env
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_ACTOR" --password-stdin
+            mkdir -p "$DEPLOY_PATH"
+            cd "$DEPLOY_PATH"
+            echo "IMAGE=$IMAGE" > .env
             docker compose pull
             docker compose up -d --remove-orphans
             docker image prune -f
+        env:
+          GHCR_ACTOR: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE: ${{ env.IMAGE }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
