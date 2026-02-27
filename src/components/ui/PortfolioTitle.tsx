@@ -8,7 +8,7 @@ import styles from "./PortfolioTitle.module.css";
 /**
  * PortfolioTitle - Main header with gradient text
  */
-export function PortfolioTitle({ title = "Portfolio Tommy PREEL" }: PortfolioTitleProps) {
+export function PortfolioTitle({ title = "Tommy PREEL" }: PortfolioTitleProps) {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{title}</h1>

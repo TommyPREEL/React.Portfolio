@@ -30,7 +30,7 @@ import { useKeyboardControls, useEnterKey, useEscapeKey } from "./hooks/useKeybo
 import { World } from "./components/3d";
 
 // UI Components
-import { Minimap, IntroModal, PortfolioTitle } from "./components/ui";
+import { Minimap, IntroModal, PortfolioTitle, SettingsPanel } from "./components/ui";
 import ContentPanel from "./components/ContentPanel";
 
 // Styles
@@ -81,8 +81,11 @@ export default function App() {
       {/* Minimap */}
       <Minimap carPosition={carPosition} activeZone={activeZone} />
 
+      {/* Settings button + panel */}
+      <SettingsPanel language={language} onLanguageChange={setLanguage} />
+
       {/* Introduction Modal */}
-      {showIntro && <IntroModal onClose={() => setShowIntro(false)} />}
+      {showIntro && <IntroModal onClose={() => setShowIntro(false)} language={language} />}
 
       {/* 3D Canvas Container */}
       <div className="canvas-container">

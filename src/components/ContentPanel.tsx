@@ -22,7 +22,7 @@ const renderAbout = (content: Content) => (
     <h1>{content.about.title}</h1>
     <p className="description">{content.about.description}</p>
     <div className="highlights">
-      <h3>Key Highlights:</h3>
+      <h3>{content.ui.contentPanel.keyHighlights}</h3>
       <ul>
         {content.about.highlights.map((highlight, index) => (
           <li key={index}>✓ {highlight}</li>
@@ -53,7 +53,7 @@ const renderProjects = (content: Content) => (
             ))}
           </div>
           <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
-            Learn More →
+            {content.ui.contentPanel.learnMore}
           </a>
         </div>
       ))}
@@ -140,10 +140,10 @@ export const ContentPanel: React.FC<ContentPanelProps> = ({
 
   return (
     <div className="ui-overlay">
+      <button className="btn-close" onClick={onBack} aria-label="Close">
+        ✕
+      </button>
       <div className="content-container">
-        <button className="btn-close" onClick={onBack} aria-label="Close">
-          ✕
-        </button>
         {sectionContent}
       </div>
     </div>

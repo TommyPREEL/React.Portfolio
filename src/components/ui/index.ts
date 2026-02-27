@@ -6,3 +6,4 @@
 export { Minimap } from "./Minimap";
 export { IntroModal } from "./IntroModal";
 export { PortfolioTitle } from "./PortfolioTitle";
+export { SettingsPanel } from "./SettingsPanel";

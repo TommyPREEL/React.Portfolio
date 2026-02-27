@@ -68,6 +68,12 @@ export interface MinimapProps {
 
 export interface IntroModalProps {
   onClose: () => void;
+  language: Language;
+}
+
+export interface SettingsPanelProps {
+  language: Language;
+  onLanguageChange: (lang: Language) => void;
 }
 
 export interface PortfolioTitleProps {

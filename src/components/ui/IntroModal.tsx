@@ -4,12 +4,16 @@
  */
 
 import type { IntroModalProps } from "../../types";
+import { getContent } from "../../i18n";
 import styles from "./IntroModal.module.css";
 
 /**
  * IntroModal - Welcome screen with controls explanation
  */
-export function IntroModal({ onClose }: IntroModalProps) {
+export function IntroModal({ onClose, language }: IntroModalProps) {
+  const { ui } = getContent(language);
+  const { intro } = ui;
+
   return (
     <>
       {/* Backdrop */}
@@ -28,30 +32,18 @@ export function IntroModal({ onClose }: IntroModalProps) {
           </button>
           
           {/* Title */}
-          <h2 className={styles.title}>Bienvenue ! 🚀</h2>
+          <h2 className={styles.title}>{intro.title}</h2>
           
           {/* Description */}
-          <p className={styles.description}>
-            Bienvenue sur mon portfolio interactif en 3D ! Explorez mon univers 
-            de développeur Full Stack à travers une expérience immersive.
-          </p>
+          <p className={styles.description}>{intro.description}</p>
           
           {/* Controls section */}
           <div className={styles.controlsSection}>
-            <h3 className={styles.controlsTitle}>🎮 Comment naviguer ?</h3>
+            <h3 className={styles.controlsTitle}>{intro.controlsTitle}</h3>
             <ul className={styles.controlsList}>
-              <li>
-                <strong>ZQSD / WASD</strong> : Conduire la voiture
-              </li>
-              <li>
-                <strong>Shift</strong> : Activer le boost 🔥
-              </li>
-              <li>
-                <strong>Enter</strong> : Ouvrir une zone (About, Projects, Skills, Contact)
-              </li>
-              <li>
-                Conduisez jusqu'aux zones illuminées pour découvrir mon parcours !
-              </li>
+              {intro.controls.map((line, i) => (
+                <li key={i} dangerouslySetInnerHTML={{ __html: line }} />
+              ))}
             </ul>
           </div>
           
@@ -60,7 +52,7 @@ export function IntroModal({ onClose }: IntroModalProps) {
             className={styles.startButton}
             onClick={onClose}
           >
-            C'est parti ! 🎮
+            {intro.startButton}
           </button>
         </div>
       </div>

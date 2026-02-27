@@ -41,8 +41,8 @@
 
 .closeButton {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   background: rgba(239, 68, 68, 0.2);
   border: 2px solid #ef4444;
   color: #ef4444;

@@ -5,6 +5,7 @@
 
 import { useFrame } from "@react-three/fiber";
 import { CONFIG, ZONES } from "../../config";
+import { getContent } from "../../i18n";
 import { Car } from "./Car";
 import { Zone } from "./Zone";
 import { PhysicsObjects } from "./PhysicsObjects";
@@ -27,6 +28,8 @@ export function World({
   onCloseSection 
 }: WorldProps) {
   
+  const { navigation } = getContent(language);
+
   // Check which zone the car is in (using AABB collision)
   useFrame(() => {
     let nearestZone: string | null = null;
@@ -145,7 +148,7 @@ export function World({
         <Zone
           key={zone.id}
           position={zone.position}
-          label={zone.label}
+          label={navigation[zone.id as keyof typeof navigation] ?? zone.label}
           icon={zone.icon}
           onEnter={() => onZoneEnter(zone.id)}
           isActive={activeZone === zone.id}

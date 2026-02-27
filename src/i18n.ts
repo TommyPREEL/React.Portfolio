@@ -47,6 +47,24 @@ export interface Content {
     back: string;
     language: string;
   };
+  ui: {
+    intro: {
+      title: string;
+      description: string;
+      controlsTitle: string;
+      controls: string[];
+      startButton: string;
+    };
+    contentPanel: {
+      keyHighlights: string;
+      learnMore: string;
+    };
+    settings: {
+      title: string;
+      languageLabel: string;
+      close: string;
+    };
+  };
 }
 
 // =====================================================
@@ -148,6 +166,30 @@ const EN: Content = {
     back: "Back",
     language: "Language",
   },
+  ui: {
+    intro: {
+      title: "Welcome! 🚀",
+      description:
+        "Welcome to my interactive 3D portfolio! Explore my Full Stack developer universe through an immersive experience.",
+      controlsTitle: "🎮 How to navigate?",
+      controls: [
+        "<strong>ZQSD / WASD</strong>: Drive the car",
+        "<strong>Shift</strong>: Activate boost 🔥",
+        "<strong>Enter</strong>: Open a zone (About, Projects, Skills, Contact)",
+        "Drive to the illuminated zones to discover my journey!",
+      ],
+      startButton: "Let's go! 🎮",
+    },
+    contentPanel: {
+      keyHighlights: "Key Highlights:",
+      learnMore: "Learn More →",
+    },
+    settings: {
+      title: "Settings",
+      languageLabel: "Language",
+      close: "Close",
+    },
+  },
 };
 
 // =====================================================
@@ -248,6 +290,30 @@ const FR: Content = {
     contact: "CONTACT",
     back: "Retour",
     language: "Langue",
+  },
+  ui: {
+    intro: {
+      title: "Bienvenue ! 🚀",
+      description:
+        "Bienvenue sur mon portfolio interactif en 3D ! Explorez mon univers de développeur Full Stack à travers une expérience immersive.",
+      controlsTitle: "🎮 Comment naviguer ?",
+      controls: [
+        "<strong>ZQSD / WASD</strong> : Conduire la voiture",
+        "<strong>Shift</strong> : Activer le boost 🔥",
+        "<strong>Enter</strong> : Ouvrir une zone (About, Projects, Skills, Contact)",
+        "Conduisez jusqu'aux zones illuminées pour découvrir mon parcours !",
+      ],
+      startButton: "C'est parti ! 🎮",
+    },
+    contentPanel: {
+      keyHighlights: "Points Clés :",
+      learnMore: "En savoir plus →",
+    },
+    settings: {
+      title: "Paramètres",
+      languageLabel: "Langue",
+      close: "Fermer",
+    },
   },
 };
 
