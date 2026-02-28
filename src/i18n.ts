@@ -93,21 +93,21 @@ const EN: Content = {
         description:
           "Two applications built during my time at Airbus: a visualizer for aircraft parts displayed as a data tree (back office), and a tool for detecting hazardous substances in aircraft parts. Angular-based, with strong focus on testing, security, and code quality.",
         technologies: ["Angular", "TypeScript", "AWS", "CI/CD"],
-        link: "#",
+        link: "",
       },
       {
         name: "Meet4Play",
         description:
           "A gamified web app that helps people break the ice and connect during live events. Built from scratch, tested with 50 real users. Taught me a lot about fullstack architecture, containerization, and automated releases.",
         technologies: ["React", "ExpressJS", "Docker", "CI/CD"],
-        link: "#",
+        link: "",
       },
       {
         name: "Self-Hosted Server",
         description:
           "Recycled an old PC into a self-hosted Ubuntu server to host personal projects and game servers. Set up SSH, Docker, networking, and security hardening from scratch.",
         technologies: ["Linux", "Docker", "Networking", "CI/CD"],
-        link: "#",
+        link: "",
       },
       {
         name: "3D Portfolio",
@@ -216,21 +216,21 @@ const FR: Content = {
         description:
           "Deux applications développées chez Airbus : un visualiseur de pièces d'avion sous forme d'arbre de données (back office), et un outil de détection de substances dangereuses. Basées sur Angular, avec un fort accent sur les tests, la sécurité et la qualité du code.",
         technologies: ["Angular", "TypeScript", "AWS", "CI/CD"],
-        link: "#",
+        link: "",
       },
       {
         name: "Meet4Play",
         description:
           "Une application web gamifiée pour aider les gens à se rencontrer lors d'événements en live. Construite de zéro, testée avec 50 vrais utilisateurs. J'y ai beaucoup appris sur l'architecture fullstack, la conteneurisation et les releases automatisées.",
         technologies: ["React", "ExpressJS", "Docker", "CI/CD"],
-        link: "#",
+        link: "",
       },
       {
         name: "Serveur Auto-Hébergé",
         description:
           "J'ai recyclé un vieux PC en serveur Ubuntu pour héberger mes projets perso et des serveurs de jeux. Configuration SSH, Docker, réseau et sécurisation from scratch.",
         technologies: ["Linux", "Docker", "Réseau", "CI/CD"],
-        link: "#",
+        link: "",
       },
       {
         name: "Portfolio 3D",

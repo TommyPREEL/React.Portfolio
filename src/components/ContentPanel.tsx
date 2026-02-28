@@ -52,9 +52,11 @@ const renderProjects = (content: Content) => (
               </span>
             ))}
           </div>
-          <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
-            {content.ui.contentPanel.learnMore}
-          </a>
+          {project.link && (
+            <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
+              {content.ui.contentPanel.learnMore}
+            </a>
+          )}
         </div>
       ))}
     </div>
