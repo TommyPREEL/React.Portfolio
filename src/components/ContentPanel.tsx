@@ -29,6 +29,14 @@ const renderAbout = (content: Content) => (
         ))}
       </ul>
     </div>
+    <a
+      href={content.about.cvLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="cv-link"
+    >
+      {content.about.cvLabel} →
+    </a>
   </div>
 );
 

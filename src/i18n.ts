@@ -11,6 +11,8 @@ export interface Content {
     title: string;
     description: string;
     highlights: string[];
+    cvLabel: string;
+    cvLink: string;
   };
   projects: {
     title: string;
@@ -96,6 +98,8 @@ const EN: Content = {
       "AWS & Cloud Infrastructure",
       "CI/CD, Docker & Self-Hosting",
     ],
+    cvLabel: "View my CV",
+    cvLink: "https://tommy-tech.fr/cv",
   },
   projects: {
     title: "Projects",
@@ -167,6 +171,11 @@ const EN: Content = {
         value: "github.com/tommypreel",
         link: "https://github.com/tommypreel",
       },
+      {
+        type: "CV",
+        value: "tommy-tech.fr/cv",
+        link: "https://tommy-tech.fr/cv",
+      },
     ],
   },
   navigation: {
@@ -235,6 +244,8 @@ const FR: Content = {
       "AWS & Infrastructure Cloud",
       "CI/CD, Docker & Self-Hosting",
     ],
+    cvLabel: "Voir mon CV",
+    cvLink: "https://tommy-tech.fr/cv",
   },
   projects: {
     title: "Projets",
@@ -305,6 +316,11 @@ const FR: Content = {
         type: "GitHub",
         value: "github.com/tommypreel",
         link: "https://github.com/tommypreel",
+      },
+      {
+        type: "CV",
+        value: "tommy-tech.fr/cv",
+        link: "https://tommy-tech.fr/cv",
       },
     ],
   },

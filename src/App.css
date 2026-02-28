@@ -346,6 +346,25 @@ html, body {
   margin-right: 6px;
 }
 
+.cv-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.cv-link:hover {
+  background: rgba(59, 130, 246, 0.3);
+  transform: translateX(4px);
+}
+
 /* =====================================================
    PROJECTS SECTION
    ===================================================== */
