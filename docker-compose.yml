@@ -5,8 +5,6 @@ services:
     restart: always
     ports:
       - "3200:80"
-    volumes:
-      - ${DEPLOY_PATH}/cv.pdf:/usr/share/nginx/html/cv.pdf:ro
     networks:
       - web
 
