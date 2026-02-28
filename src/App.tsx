@@ -15,12 +15,13 @@
  * - Responsive camera following
  */
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 
 // Config & Types
 import { getContent, type Language } from "./i18n";
+import { ZONES } from "./config";
 import "./types"; // Import global type declarations
 
 // Hooks
@@ -30,7 +31,7 @@ import { useKeyboardControls, useEnterKey, useEscapeKey } from "./hooks/useKeybo
 import { World } from "./components/3d";
 
 // UI Components
-import { Minimap, IntroModal, PortfolioTitle, SettingsPanel } from "./components/ui";
+import { Minimap, IntroModal, PortfolioTitle, SettingsPanel, EscapeMenu } from "./components/ui";
 import ContentPanel from "./components/ContentPanel";
 
 // Styles
@@ -44,9 +45,12 @@ export default function App() {
   // Application state
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [language, setLanguage] = useState<Language>("en");
-  const [carPosition, setCarPosition] = useState(new THREE.Vector3(0, 0.25, 0));
+  const [carPosition, setCarPosition] = useState(new THREE.Vector3(-30, 0.25, 0));
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [showIntro, setShowIntro] = useState(true);
+  const [showEscapeMenu, setShowEscapeMenu] = useState(false);
+  const [escapeMenuTab, setEscapeMenuTab] = useState<"home" | "controls" | "settings" | "map">("home");
+  const [teleportTarget, setTeleportTarget] = useState<THREE.Vector3 | null>(null);
 
   // Get content for current language
   const content = getContent(language);
@@ -56,6 +60,15 @@ export default function App() {
     setLanguage((prev) => (prev === "en" ? "fr" : "en"));
   };
 
+  // Teleport to a zone by id
+  const handleZoneClick = useCallback((zoneId: string) => {
+    const zone = ZONES.find((z) => z.id === zoneId);
+    if (zone) {
+      // Place car slightly in front of the zone (offset Z so it enters the zone)
+      setTeleportTarget(new THREE.Vector3(zone.position[0], 0.25, zone.position[2] + 4));
+    }
+  }, []);
+
   // Set up keyboard controls
   useKeyboardControls();
   
@@ -64,14 +77,35 @@ export default function App() {
     setActiveSection(zone);
   });
 
-  // Handle Escape key to close popups
+  // Handle Escape key to close popups or open escape menu
   useEscapeKey(() => {
     if (activeSection) {
       setActiveSection(null);
     } else if (showIntro) {
       setShowIntro(false);
+    } else if (showEscapeMenu) {
+      setShowEscapeMenu(false);
+    } else {
+      setEscapeMenuTab("home");
+      setShowEscapeMenu(true);
     }
   });
+
+  // Handle M key to open map tab in escape menu
+  useEffect(() => {
+    const handleMKey = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === "m" && !activeSection && !showIntro) {
+        if (showEscapeMenu) {
+          setShowEscapeMenu(false);
+        } else {
+          setEscapeMenuTab("map");
+          setShowEscapeMenu(true);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleMKey);
+    return () => window.removeEventListener("keydown", handleMKey);
+  }, [activeSection, showIntro, showEscapeMenu]);
 
   return (
     <div className="app">
@@ -79,13 +113,26 @@ export default function App() {
       <PortfolioTitle />
 
       {/* Minimap */}
-      <Minimap carPosition={carPosition} activeZone={activeZone} />
+      <Minimap carPosition={carPosition} activeZone={activeZone} onZoneClick={handleZoneClick} />
 
-      {/* Settings button + panel */}
-      <SettingsPanel language={language} onLanguageChange={setLanguage} />
+      {/* Settings button */}
+      <SettingsPanel onOpenEscapeMenu={() => { setEscapeMenuTab("settings"); setShowEscapeMenu(true); }} />
 
       {/* Introduction Modal */}
       {showIntro && <IntroModal onClose={() => setShowIntro(false)} language={language} />}
+
+      {/* Escape Menu */}
+      {showEscapeMenu && (
+        <EscapeMenu
+          language={language}
+          onLanguageChange={setLanguage}
+          carPosition={carPosition}
+          activeZone={activeZone}
+          onClose={() => setShowEscapeMenu(false)}
+          onZoneClick={handleZoneClick}
+          initialTab={escapeMenuTab}
+        />
+      )}
 
       {/* 3D Canvas Container */}
       <div className="canvas-container">
@@ -127,6 +174,8 @@ export default function App() {
             onLanguageToggle={toggleLanguage}
             activeSection={activeSection}
             onCloseSection={() => setActiveSection(null)}
+            teleportTarget={teleportTarget}
+            onTeleportComplete={() => setTeleportTarget(null)}
           />
         </Canvas>
       </div>

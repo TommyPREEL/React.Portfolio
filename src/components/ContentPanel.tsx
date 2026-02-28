@@ -25,7 +25,7 @@ const renderAbout = (content: Content) => (
       <h3>{content.ui.contentPanel.keyHighlights}</h3>
       <ul>
         {content.about.highlights.map((highlight, index) => (
-          <li key={index}>✓ {highlight}</li>
+          <li key={index}>{highlight}</li>
         ))}
       </ul>
     </div>

@@ -65,6 +65,19 @@ export interface Content {
       languageLabel: string;
       close: string;
     };
+    escapeMenu: {
+      tabHome: string;
+      tabControls: string;
+      tabSettings: string;
+      tabMap: string;
+      controlOr: string;
+      mapYourPosition: string;
+      mapTeleportHint: string;
+      controls: Array<{
+        keys: string;
+        action: string;
+      }>;
+    };
   };
 }
 
@@ -188,6 +201,22 @@ const EN: Content = {
       languageLabel: "Language",
       close: "Close",
     },
+    escapeMenu: {
+      tabHome: "Home",
+      tabControls: "Controls",
+      tabSettings: "Settings",
+      tabMap: "Map",
+      controlOr: "or",
+      mapYourPosition: "Your position",
+      mapTeleportHint: "Click a zone to teleport",
+      controls: [
+        { keys: "WASD / ZQSD", action: "Move around" },
+        { keys: "SHIFT", action: "Boost" },
+        { keys: "ENTER", action: "Interact with zone" },
+        { keys: "ESCAPE", action: "Open / close menu" },
+        { keys: "M", action: "Open the map" },
+      ],
+    },
   },
 };
 
@@ -310,6 +339,22 @@ const FR: Content = {
       title: "Paramètres",
       languageLabel: "Langue",
       close: "Fermer",
+    },
+    escapeMenu: {
+      tabHome: "Accueil",
+      tabControls: "Contrôles",
+      tabSettings: "Paramètres",
+      tabMap: "Carte",
+      controlOr: "ou",
+      mapYourPosition: "Votre position",
+      mapTeleportHint: "Cliquez sur une zone pour vous téléporter",
+      controls: [
+        { keys: "WASD / ZQSD", action: "Se déplacer" },
+        { keys: "SHIFT", action: "Boost" },
+        { keys: "ENTRÉE", action: "Interagir avec une zone" },
+        { keys: "ÉCHAP", action: "Ouvrir / fermer le menu" },
+        { keys: "M", action: "Ouvrir la carte" },
+      ],
     },
   },
 };

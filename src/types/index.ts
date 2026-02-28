@@ -24,6 +24,8 @@ export interface CarProps {
   position: THREE.Vector3;
   onMove: (position: THREE.Vector3, rotation: number) => void;
   isDisabled: boolean;
+  teleportTarget: THREE.Vector3 | null;
+  onTeleportComplete: () => void;
 }
 
 export interface ZoneData {
@@ -52,6 +54,8 @@ export interface WorldProps {
   onLanguageToggle: () => void;
   activeSection: string | null;
   onCloseSection: () => void;
+  teleportTarget: THREE.Vector3 | null;
+  onTeleportComplete: () => void;
 }
 
 export interface ThreeDUIProps {
@@ -65,6 +69,7 @@ export interface ThreeDUIProps {
 export interface MinimapProps {
   carPosition: THREE.Vector3;
   activeZone: string | null;
+  onZoneClick: (zoneId: string) => void;
 }
 
 export interface IntroModalProps {
@@ -73,8 +78,17 @@ export interface IntroModalProps {
 }
 
 export interface SettingsPanelProps {
+  onOpenEscapeMenu: () => void;
+}
+
+export interface EscapeMenuProps {
   language: Language;
   onLanguageChange: (lang: Language) => void;
+  carPosition: THREE.Vector3;
+  activeZone: string | null;
+  onClose: () => void;
+  onZoneClick: (zoneId: string) => void;
+  initialTab?: "home" | "controls" | "settings" | "map";
 }
 
 export interface PortfolioTitleProps {

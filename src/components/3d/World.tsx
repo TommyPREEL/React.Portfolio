@@ -25,7 +25,9 @@ export function World({
   language, 
   onLanguageToggle, 
   activeSection, 
-  onCloseSection 
+  onCloseSection,
+  teleportTarget,
+  onTeleportComplete,
 }: WorldProps) {
   
   const { navigation } = getContent(language);
@@ -161,6 +163,8 @@ export function World({
         position={carPosition} 
         onMove={onCarMove} 
         isDisabled={!!activeSection} 
+        teleportTarget={teleportTarget}
+        onTeleportComplete={onTeleportComplete}
       />
 
       {/* Physics Objects - pushable 3D objects */}

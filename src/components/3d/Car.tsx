@@ -3,7 +3,7 @@
  * Detailed 3D car model with rotation and smooth physics
  */
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { CONFIG, ZONES } from "../../config";
@@ -11,16 +11,52 @@ import type { CarProps } from "../../types";
 
 /**
  * Car - Main player vehicle with detailed 3D model
- * Features: Steering, acceleration, boost, and visual effects
+ * Features: Steering, acceleration, boost, teleport, and visual effects
  */
-export function Car({ position, onMove, isDisabled }: CarProps) {
+export function Car({ position, onMove, isDisabled, teleportTarget, onTeleportComplete }: CarProps) {
   const carRef = useRef<THREE.Group>(null);
   const speedRef = useRef(0);
   const rotationRef = useRef(0);
+  const teleportRef = useRef<THREE.Vector3 | null>(null);
   const [isBoosting, setIsBoosting] = useState(false);
 
+  // Handle teleport target changes
+  useEffect(() => {
+    if (teleportTarget) {
+      teleportRef.current = teleportTarget.clone();
+      speedRef.current = 0; // stop the car during teleport
+    }
+  }, [teleportTarget]);
+
   useFrame(() => {
-    if (!carRef.current || isDisabled) return;
+    if (!carRef.current) return;
+
+    // Handle smooth teleport lerp
+    if (teleportRef.current) {
+      const tx = teleportRef.current.x;
+      const tz = teleportRef.current.z;
+      const dx = tx - carRef.current.position.x;
+      const dz = tz - carRef.current.position.z;
+      const dist = Math.sqrt(dx * dx + dz * dz);
+
+      if (dist < 0.3) {
+        // Arrived
+        carRef.current.position.x = tx;
+        carRef.current.position.z = tz;
+        teleportRef.current = null;
+        onTeleportComplete();
+      } else {
+        // Smooth lerp toward target
+        const lerpSpeed = 0.08;
+        carRef.current.position.x += dx * lerpSpeed;
+        carRef.current.position.z += dz * lerpSpeed;
+      }
+
+      onMove(carRef.current.position.clone(), rotationRef.current);
+      return; // Skip normal input during teleport
+    }
+
+    if (isDisabled) return;
 
     const keys = window.keys;
     

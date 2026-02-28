@@ -11,7 +11,7 @@ import styles from "./Minimap.module.css";
  * Minimap - Real-time position indicator
  * Shows car position relative to zones (horizontal layout)
  */
-export function Minimap({ carPosition, activeZone }: MinimapProps) {
+export function Minimap({ carPosition, activeZone, onZoneClick }: MinimapProps) {
   // Calculate car position percentage for horizontal world (width=80, depth=30)
   // X: -40 to 40 -> 5% to 95%
   // Z: -15 to 15 -> 20% to 80%
@@ -30,7 +30,7 @@ export function Minimap({ carPosition, activeZone }: MinimapProps) {
           const xPos = 50 + (zone.position[0] / halfWidth) * 40;
           
           return (
-            <div 
+            <button 
               key={zone.id}
               className={styles.zoneIcon}
               style={{
@@ -39,9 +39,11 @@ export function Minimap({ carPosition, activeZone }: MinimapProps) {
                 transform: 'translate(-50%, -50%)',
                 opacity: activeZone === zone.id ? 1 : 0.5
               }}
+              onClick={() => onZoneClick(zone.id)}
+              title={zone.label}
             >
               {zone.icon}
-            </div>
+            </button>
           );
         })}
         

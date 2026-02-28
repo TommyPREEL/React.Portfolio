@@ -57,20 +57,22 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  outline: none;
 }
 
 .closeButton:hover {
   background: rgba(239, 68, 68, 0.4);
 }
 
+.closeButton:focus {
+  outline: none;
+}
+
 .title {
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 20px;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #3b82f6;
 }
 
 .description {

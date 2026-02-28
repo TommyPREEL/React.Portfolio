@@ -257,10 +257,7 @@ html, body {
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 16px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary);
   letter-spacing: -0.5px;
 }
 
@@ -295,7 +292,6 @@ html, body {
   color: #ef4444;
   font-size: 24px;
   cursor: pointer;
-  transition: all 0.2s ease;
   padding: 8px 12px;
   border-radius: 8px;
   font-weight: bold;
@@ -304,12 +300,17 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+  z-index: 1;
 }
 
 .btn-close:hover {
-  background: #ef4444;
-  color: white;
-  transform: scale(1.1);
+  background: rgba(239, 68, 68, 0.4);
+}
+
+.btn-close:focus {
+  outline: none;
 }
 
 /* =====================================================
