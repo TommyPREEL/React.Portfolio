@@ -4,12 +4,11 @@
 // Supports: About, Projects, Skills, Contact sections
 // =====================================================
 
-import { type Content, type Language } from "../i18n";
+import { type Content } from "../i18n";
 
 interface ContentPanelProps {
   section: string | null;
   content: Content;
-  language: Language;
   onBack: () => void;
 }
 

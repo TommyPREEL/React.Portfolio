@@ -194,7 +194,6 @@ export default function App() {
           <ContentPanel
             section={activeSection}
             content={content}
-            language={language}
             onBack={() => setActiveSection(null)}
           />
         </div>

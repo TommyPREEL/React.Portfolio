@@ -3,7 +3,6 @@
  * Re-exports all 3D components for cleaner imports
  */
 
-export { AnimatedGrass } from "./AnimatedGrass";
 export { Car } from "./Car";
 export { Zone } from "./Zone";
 export { ThreeDUI } from "./ThreeDUI";

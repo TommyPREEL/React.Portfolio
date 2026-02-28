@@ -82,73 +82,7 @@ html, body {
   background: transparent;
 }
 
-/* =====================================================
-   LANGUAGE BUTTON
-   ===================================================== */
 
-.btn-language {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 50;
-  padding: 10px 16px;
-  background: rgba(59, 130, 246, 0.15);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
-}
-
-.btn-language:hover {
-  background: rgba(59, 130, 246, 0.25);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
-
-.btn-language:active {
-  transform: translateY(0);
-}
-
-/* =====================================================
-   HUD INSTRUCTIONS
-   ===================================================== */
-
-.hud-instructions {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 40;
-  text-align: center;
-  animation: fadeIn 0.8s ease-out 0.5s both;
-}
-
-.hud-instructions p {
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(12px);
-  padding: 12px 24px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  font-size: 14px;
-  color: var(--text-secondary);
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
 
 /* =====================================================
    MODAL BACKDROP AND WRAPPER
@@ -554,21 +488,7 @@ html, body {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .btn-language {
-    top: 12px;
-    right: 12px;
-    padding: 8px 12px;
-    font-size: 12px;
-  }
 
-  .hud-instructions {
-    bottom: 20px;
-  }
-
-  .hud-instructions p {
-    font-size: 12px;
-    padding: 10px 16px;
-  }
 }
 
 @media (max-width: 480px) {
