@@ -11,7 +11,7 @@ import type { ZoneProps } from "../../types";
  * Zone - Interactive area with billboard panel and ground activation zone
  * Features: Neon frame, support poles, ground zone with hover effects
  */
-export function Zone({ position, label, icon, onEnter, isActive }: ZoneProps) {
+export function Zone({ position, label, icon, onEnter, isActive, pressEnterText }: ZoneProps) {
   const neonColor = isActive ? "#fbbf24" : "#3b82f6";
   const neonIntensity = isActive ? 2 : 0.8;
   
@@ -197,7 +197,7 @@ export function Zone({ position, label, icon, onEnter, isActive }: ZoneProps) {
             anchorY="middle"
             fontWeight={700}
           >
-            PRESS ENTER
+            {pressEnterText}
           </Text>
         )}
       </group>

@@ -46,6 +46,7 @@ export interface Content {
     contact: string;
     back: string;
     language: string;
+    pressEnter: string;
   };
   ui: {
     intro: {
@@ -162,6 +163,7 @@ const EN: Content = {
     contact: "CONTACT",
     back: "Back",
     language: "Language",
+    pressEnter: "PRESS ENTER",
   },
   ui: {
     intro: {
@@ -284,6 +286,7 @@ const FR: Content = {
     contact: "CONTACT",
     back: "Retour",
     language: "Langue",
+    pressEnter: "APPUYEZ SUR ENTRER",
   },
   ui: {
     intro: {

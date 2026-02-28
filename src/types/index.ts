@@ -39,6 +39,7 @@ export interface ZoneProps {
   icon: string;
   onEnter: () => void;
   isActive: boolean;
+  pressEnterText: string;
 }
 
 export interface WorldProps {

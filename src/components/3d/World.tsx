@@ -152,6 +152,7 @@ export function World({
           icon={zone.icon}
           onEnter={() => onZoneEnter(zone.id)}
           isActive={activeZone === zone.id}
+          pressEnterText={navigation.pressEnter}
         />
       ))}
 
