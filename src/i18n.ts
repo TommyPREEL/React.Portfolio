@@ -75,86 +75,83 @@ const EN: Content = {
   about: {
     title: "About Me",
     description:
-      "Hello! I'm a passionate Full Stack Developer with expertise in creating modern, scalable web applications. With years of experience in both frontend and backend technologies, I strive to deliver exceptional user experiences combined with robust server-side solutions.",
+      "Hey! I'm Tommy, a FullStack Developer based in Toulouse, France. I've been working with TypeScript for years, building Angular and React apps on the frontend and using ExpressJS and AWS on the backend. I care a lot about security, performance, and making things that actually feel good to use. Currently working at Airbus through Alten SO, where I've spent 4+ years on real-world industrial applications.",
     highlights: [
-      "Full Stack Development",
-      "React & TypeScript Specialist",
-      "Cloud-Native Architecture",
-      "Problem Solver & Team Player",
+      "4+ years at Airbus (with 3 years as work-study)",
+      "TypeScript / Angular / React",
+      "AWS & Cloud Infrastructure",
+      "CI/CD, Docker & Self-Hosting",
     ],
   },
   projects: {
     title: "Projects",
-    description: "Here are some of my recent projects that showcase my skills and passion for development.",
+    description: "A mix of professional and personal projects that reflect what I like to build.",
     items: [
       {
-        name: "3D Portfolio Website",
+        name: "Airbus Industrial Apps",
         description:
-          "An innovative interactive 3D portfolio using React, Three.js, and modern web technologies. Users can navigate through different sections using an isometric car.",
-        technologies: ["React", "Three.js", "TypeScript", "Tailwind CSS"],
+          "Two applications built during my time at Airbus: a visualizer for aircraft parts displayed as a data tree (back office), and a tool for detecting hazardous substances in aircraft parts. Angular-based, with strong focus on testing, security, and code quality.",
+        technologies: ["Angular", "TypeScript", "AWS", "CI/CD"],
         link: "#",
       },
       {
-        name: "E-Commerce Platform",
+        name: "Meet4Play",
         description:
-          "Full-featured e-commerce application with payment integration, inventory management, and real-time notifications.",
-        technologies: ["Next.js", "Node.js", "PostgreSQL", "Stripe"],
+          "A gamified web app that helps people break the ice and connect during live events. Built from scratch, tested with 50 real users. Taught me a lot about fullstack architecture, containerization, and automated releases.",
+        technologies: ["React", "ExpressJS", "Docker", "CI/CD"],
         link: "#",
       },
       {
-        name: "Real-Time Chat Application",
+        name: "Self-Hosted Server",
         description:
-          "WebSocket-based chat application with real-time messaging, user presence, and file sharing capabilities.",
-        technologies: ["React", "WebSocket", "Firebase", "Material-UI"],
+          "Recycled an old PC into a self-hosted Ubuntu server to host personal projects and game servers. Set up SSH, Docker, networking, and security hardening from scratch.",
+        technologies: ["Linux", "Docker", "Networking", "CI/CD"],
+        link: "#",
+      },
+      {
+        name: "3D Portfolio",
+        description:
+          "This website! An interactive 3D portfolio built with React, Three.js, and TypeScript. Drive a car around and explore different sections of my profile.",
+        technologies: ["React", "Three.js", "TypeScript", "Vite"],
         link: "#",
       },
     ],
   },
   skills: {
     title: "Skills & Expertise",
-    description: "Technical skills and tools I've mastered throughout my career.",
+    description: "The tools and technologies I work with on a daily basis.",
     categories: [
       {
         name: "Frontend",
-        items: ["React", "TypeScript", "Tailwind CSS", "Three.js", "Next.js", "Vue.js"],
+        items: ["Angular", "React", "TypeScript", "HTML / CSS", "Figma"],
       },
       {
         name: "Backend",
-        items: ["Node.js", "Express", "PostgreSQL", "MongoDB", "REST API", "GraphQL"],
+        items: ["ExpressJS", "REST API", "PostgreSQL", "MySQL", "Python"],
       },
       {
-        name: "Tools & DevOps",
-        items: ["Git", "Docker", "CI/CD", "AWS", "Vercel", "GitHub Actions"],
+        name: "DevOps & Cloud",
+        items: ["AWS", "Docker", "CI/CD", "GitHub Actions", "Jenkins"],
       },
       {
-        name: "Soft Skills",
-        items: ["Team Leadership", "Problem Solving", "Communication", "Project Management"],
+        name: "Methods & More",
+        items: ["Scrum / SAFe", "Release Management", "Security", "Testing (E2E, Unit)"],
       },
     ],
   },
   contact: {
     title: "Contact Me",
-    description: "Let's connect! Feel free to reach out for collaborations or opportunities.",
+    description: "Feel free to reach out, I'm always open to new opportunities and collaborations.",
     methods: [
       {
         type: "Email",
-        value: "hello@yourportfolio.com",
-        link: "mailto:hello@yourportfolio.com",
-      },
-      {
-        type: "LinkedIn",
-        value: "linkedin.com/in/yourprofile",
-        link: "https://linkedin.com/in/yourprofile",
+        value: "preel.tommy@gmail.com",
+        link: "mailto:preel.tommy@gmail.com",
       },
       {
         type: "GitHub",
-        value: "github.com/yourprofile",
-        link: "https://github.com/yourprofile",
-      },
-      {
-        type: "Twitter",
-        value: "@yourhandle",
-        link: "https://twitter.com/yourhandle",
+        value: "github.com/tommypreel",
+        link: "https://github.com/tommypreel",
       },
     ],
   },
@@ -200,86 +197,83 @@ const FR: Content = {
   about: {
     title: "À Propos",
     description:
-      "Bonjour! Je suis un développeur Full Stack passionné, spécialisé dans la création d'applications web modernes et scalables. Avec plusieurs années d'expérience en technologies frontend et backend, je m'efforce de fournir des expériences utilisateur exceptionnelles combinées à des solutions serveur robustes.",
+      "Salut ! Moi c'est Tommy, développeur FullStack basé à Toulouse. Je travaille avec TypeScript au quotidien, côté front en Angular et React, et côté back avec ExpressJS et AWS. J'accorde beaucoup d'importance à la sécurité, la performance, et surtout à l'expérience utilisateur. Actuellement en poste chez Airbus via Alten SO, où j'ai passé plus de 4 ans sur des applications industrielles concrètes.",
     highlights: [
-      "Développement Full Stack",
-      "Spécialiste React & TypeScript",
-      "Architecture Cloud-Native",
-      "Résolveur de Problèmes & Joueur d'Équipe",
+      "4+ ans chez Airbus (dont 3 ans en alternance)",
+      "TypeScript / Angular / React",
+      "AWS & Infrastructure Cloud",
+      "CI/CD, Docker & Self-Hosting",
     ],
   },
   projects: {
     title: "Projets",
-    description: "Voici quelques-uns de mes projets récents qui mettent en avant mes compétences et ma passion pour le développement.",
+    description: "Un mélange de projets professionnels et personnels qui reflètent ce que j'aime construire.",
     items: [
       {
-        name: "Site Portfolio 3D",
+        name: "Applications Industrielles Airbus",
         description:
-          "Un portfolio interactif innovant en 3D utilisant React, Three.js et les technologies web modernes. Les utilisateurs peuvent naviguer à travers différentes sections en utilisant une voiture isométrique.",
-        technologies: ["React", "Three.js", "TypeScript", "Tailwind CSS"],
+          "Deux applications développées chez Airbus : un visualiseur de pièces d'avion sous forme d'arbre de données (back office), et un outil de détection de substances dangereuses. Basées sur Angular, avec un fort accent sur les tests, la sécurité et la qualité du code.",
+        technologies: ["Angular", "TypeScript", "AWS", "CI/CD"],
         link: "#",
       },
       {
-        name: "Plateforme E-Commerce",
+        name: "Meet4Play",
         description:
-          "Application e-commerce complète avec intégration des paiements, gestion des stocks et notifications en temps réel.",
-        technologies: ["Next.js", "Node.js", "PostgreSQL", "Stripe"],
+          "Une application web gamifiée pour aider les gens à se rencontrer lors d'événements en live. Construite de zéro, testée avec 50 vrais utilisateurs. J'y ai beaucoup appris sur l'architecture fullstack, la conteneurisation et les releases automatisées.",
+        technologies: ["React", "ExpressJS", "Docker", "CI/CD"],
         link: "#",
       },
       {
-        name: "Application de Chat en Temps Réel",
+        name: "Serveur Auto-Hébergé",
         description:
-          "Application de chat basée sur WebSocket avec messagerie en temps réel, présence utilisateur et partage de fichiers.",
-        technologies: ["React", "WebSocket", "Firebase", "Material-UI"],
+          "J'ai recyclé un vieux PC en serveur Ubuntu pour héberger mes projets perso et des serveurs de jeux. Configuration SSH, Docker, réseau et sécurisation from scratch.",
+        technologies: ["Linux", "Docker", "Réseau", "CI/CD"],
+        link: "#",
+      },
+      {
+        name: "Portfolio 3D",
+        description:
+          "Ce site ! Un portfolio interactif en 3D construit avec React, Three.js et TypeScript. Conduisez une voiture et explorez les différentes sections de mon profil.",
+        technologies: ["React", "Three.js", "TypeScript", "Vite"],
         link: "#",
       },
     ],
   },
   skills: {
     title: "Compétences & Expertise",
-    description: "Compétences techniques et outils que j'ai maîtrisés tout au long de ma carrière.",
+    description: "Les outils et technologies que j'utilise au quotidien.",
     categories: [
       {
         name: "Frontend",
-        items: ["React", "TypeScript", "Tailwind CSS", "Three.js", "Next.js", "Vue.js"],
+        items: ["Angular", "React", "TypeScript", "HTML / CSS", "Figma"],
       },
       {
         name: "Backend",
-        items: ["Node.js", "Express", "PostgreSQL", "MongoDB", "REST API", "GraphQL"],
+        items: ["ExpressJS", "API REST", "PostgreSQL", "MySQL", "Python"],
       },
       {
-        name: "Outils & DevOps",
-        items: ["Git", "Docker", "CI/CD", "AWS", "Vercel", "GitHub Actions"],
+        name: "DevOps & Cloud",
+        items: ["AWS", "Docker", "CI/CD", "GitHub Actions", "Jenkins"],
       },
       {
-        name: "Soft Skills",
-        items: ["Leadership d'Équipe", "Résolution de Problèmes", "Communication", "Gestion de Projet"],
+        name: "Méthodes & Autres",
+        items: ["Scrum / SAFe", "Gestion de Release", "Sécurité", "Tests (E2E, Unitaires)"],
       },
     ],
   },
   contact: {
     title: "Me Contacter",
-    description: "Connectons-nous! N'hésitez pas à me contacter pour des collaborations ou des opportunités.",
+    description: "N'hésitez pas à me contacter, je suis toujours ouvert aux nouvelles opportunités et collaborations.",
     methods: [
       {
         type: "Email",
-        value: "hello@yourportfolio.com",
-        link: "mailto:hello@yourportfolio.com",
-      },
-      {
-        type: "LinkedIn",
-        value: "linkedin.com/in/votreprofil",
-        link: "https://linkedin.com/in/yourprofile",
+        value: "preel.tommy@gmail.com",
+        link: "mailto:preel.tommy@gmail.com",
       },
       {
         type: "GitHub",
-        value: "github.com/votreprofil",
-        link: "https://github.com/yourprofile",
-      },
-      {
-        type: "Twitter",
-        value: "@votreidentifiant",
-        link: "https://twitter.com/yourhandle",
+        value: "github.com/tommypreel",
+        link: "https://github.com/tommypreel",
       },
     ],
   },
