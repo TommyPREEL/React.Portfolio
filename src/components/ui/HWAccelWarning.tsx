@@ -18,7 +18,7 @@ export function HWAccelWarning({ onClose, language }: HWAccelWarningProps) {
 
   return (
     <div className={styles.banner} role="alert">
-      <span className={styles.icon}>⚠️</span>
+      <span className={styles.icon}>⚡</span>
       <p className={styles.text}>
         <strong>{hwAccelWarning.title} — </strong>
         {hwAccelWarning.description}
