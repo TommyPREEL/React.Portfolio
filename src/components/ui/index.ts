@@ -5,6 +5,7 @@
 
 export { Minimap } from "./Minimap";
 export { IntroModal } from "./IntroModal";
+export { HWAccelWarning } from "./HWAccelWarning";
 export { PortfolioTitle } from "./PortfolioTitle";
 export { SettingsPanel } from "./SettingsPanel";
 export { EscapeMenu } from "./EscapeMenu";

@@ -1,0 +1,62 @@
+/**
+ * HWAccelWarning — slim top banner styles
+ */
+
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10002;
+  background: linear-gradient(90deg, rgba(120, 80, 0, 0.97) 0%, rgba(92, 60, 0, 0.97) 100%);
+  border-bottom: 2px solid #fbbf24;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  flex: 1;
+  font-size: 0.82rem;
+  color: #fef3c7;
+  line-height: 1.45;
+}
+
+.text strong {
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.closeButton {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #fbbf24;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.closeButton:hover {
+  background: rgba(251, 191, 36, 0.15);
+}

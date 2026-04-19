@@ -26,12 +26,13 @@ import "./types"; // Import global type declarations
 
 // Hooks
 import { useKeyboardControls, useEnterKey, useEscapeKey } from "./hooks/useKeyboardControls";
+import { isHWAccelEnabled } from "./utils/detectHWAccel";
 
 // 3D Components
 import { World } from "./components/3d";
 
 // UI Components
-import { Minimap, IntroModal, PortfolioTitle, SettingsPanel, EscapeMenu } from "./components/ui";
+import { Minimap, IntroModal, HWAccelWarning, PortfolioTitle, SettingsPanel, EscapeMenu } from "./components/ui";
 import ContentPanel from "./components/ContentPanel";
 
 // Styles
@@ -48,6 +49,14 @@ export default function App() {
   const [carPosition, setCarPosition] = useState(new THREE.Vector3(-30, 0.25, 2.5));
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [showIntro, setShowIntro] = useState(true);
+  const [showHWAccelWarning, setShowHWAccelWarning] = useState(false);
+
+  const handleIntroClose = () => {
+    setShowIntro(false);
+    if (!isHWAccelEnabled()) {
+      setShowHWAccelWarning(true);
+    }
+  };
   const [showEscapeMenu, setShowEscapeMenu] = useState(false);
   const [escapeMenuTab, setEscapeMenuTab] = useState<"home" | "controls" | "settings" | "map">("home");
   const [teleportTarget, setTeleportTarget] = useState<THREE.Vector3 | null>(null);
@@ -119,7 +128,17 @@ export default function App() {
       <SettingsPanel onOpenEscapeMenu={() => { setEscapeMenuTab("settings"); setShowEscapeMenu(true); }} />
 
       {/* Introduction Modal */}
-      {showIntro && <IntroModal onClose={() => setShowIntro(false)} language={language} />}
+      {showIntro && (
+        <IntroModal
+          onClose={handleIntroClose}
+          language={language}
+        />
+      )}
+
+      {/* Hardware Acceleration Warning */}
+      {showHWAccelWarning && (
+        <HWAccelWarning onClose={() => setShowHWAccelWarning(false)} language={language} />
+      )}
 
       {/* Escape Menu */}
       {showEscapeMenu && (

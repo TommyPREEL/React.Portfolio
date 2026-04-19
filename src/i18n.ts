@@ -80,6 +80,14 @@ export interface Content {
         action: string;
       }>;
     };
+    hwAccelWarning: {
+      title: string;
+      description: string;
+      chrome: string;
+      firefox: string;
+      edge: string;
+      dismissButton: string;
+    };
   };
 }
 
@@ -240,6 +248,15 @@ const EN: Content = {
         { keys: "M", action: "Open the map" },
       ],
     },
+    hwAccelWarning: {
+      title: "Enable Hardware Acceleration",
+      description:
+        "This site uses WebGL 3D rendering. Without hardware acceleration enabled in your browser, you may experience lag or poor performance.",
+      chrome: "Chrome / Edge: Settings → System → Use hardware acceleration when available",
+      firefox: "Firefox: about:config → layers.acceleration.force-enabled → true",
+      edge: "Then restart your browser and reload the page.",
+      dismissButton: "Got it, continue",
+    },
   },
 };
 
@@ -399,6 +416,15 @@ const FR: Content = {
         { keys: "ÉCHAP", action: "Ouvrir / fermer le menu" },
         { keys: "M", action: "Ouvrir la carte" },
       ],
+    },
+    hwAccelWarning: {
+      title: "Activer l'accélération matérielle",
+      description:
+        "Ce site utilise le rendu 3D WebGL. Sans l'accélération matérielle activée dans votre navigateur, vous risquez de rencontrer des lags ou de mauvaises performances.",
+      chrome: "Chrome / Edge : Paramètres → Système → Utiliser l'accélération matérielle si disponible",
+      firefox: "Firefox : about:config → layers.acceleration.force-enabled → true",
+      edge: "Redémarrez ensuite votre navigateur et rechargez la page.",
+      dismissButton: "Compris, continuer",
     },
   },
 };
