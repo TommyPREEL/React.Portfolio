@@ -12,7 +12,7 @@ import type { Language } from "../i18n";
 
 declare global {
   interface Window {
-    keys: Record<string, boolean>;
+    keys: Record<string, boolean | number>;
   }
 }
 

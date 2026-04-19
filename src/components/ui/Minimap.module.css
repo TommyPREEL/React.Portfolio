@@ -18,9 +18,11 @@
 
 @media (max-width: 768px) {
   .minimap {
-    width: 130px;
+    /* Move below the title bar so it doesn't overlap */
+    width: 140px;
     height: 44px;
-    top: 12px;
+    top: auto;
+    bottom: 175px;
     right: 12px;
     padding: 5px;
   }

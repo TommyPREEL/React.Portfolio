@@ -59,34 +59,44 @@ export function Car({ position, onMove, isDisabled, teleportTarget, onTeleportCo
     if (isDisabled) return;
 
     const keys = window.keys;
-    
-    // Input handling
-    let inputAccel = 0;
-    let inputSteering = 0;
-    const isBoost = keys.boost;
-
-    // Use boost acceleration and speed if boost is active
-    const currentAccel = isBoost ? CONFIG.car.boostAcceleration : CONFIG.car.acceleration;
+    const isBoost = !!keys.boost;
     const currentMaxSpeed = isBoost ? CONFIG.car.boostSpeed : CONFIG.car.maxSpeed;
+    const currentAccel   = isBoost ? CONFIG.car.boostAcceleration : CONFIG.car.acceleration;
 
-    if (keys.forward) inputAccel = currentAccel;
-    if (keys.backward) inputAccel = -currentAccel;
-    if (keys.left) inputSteering = CONFIG.car.steeringSpeed;
-    if (keys.right) inputSteering = -CONFIG.car.steeringSpeed;
+    // ── Joystick (mobile absolute world-space control) ──────────────
+    const jx = typeof keys.joystickX === "number" ? (keys.joystickX as number) : 0;
+    const jz = typeof keys.joystickZ === "number" ? (keys.joystickZ as number) : 0;
+    const joystickMag = Math.sqrt(jx * jx + jz * jz);
 
-    // Update forward speed with acceleration
-    speedRef.current += inputAccel;
-    speedRef.current = Math.max(-currentMaxSpeed, Math.min(currentMaxSpeed, speedRef.current));
-    
-    // Apply friction when not accelerating
-    if (inputAccel === 0) {
-      speedRef.current *= CONFIG.car.friction;
-    }
+    if (joystickMag > 0.05) {
+      // Rotate car to face the absolute world direction of the joystick
+      const targetRot = Math.atan2(jx, jz);
+      let diff = targetRot - rotationRef.current;
+      while (diff >  Math.PI) diff -= 2 * Math.PI;
+      while (diff < -Math.PI) diff += 2 * Math.PI;
+      rotationRef.current += diff * 0.18;
 
-    // Apply steering only when moving
-    if (Math.abs(speedRef.current) > 0.001) {
-      const steeringDirection = speedRef.current > 0 ? 1 : -1;
-      rotationRef.current += inputSteering * steeringDirection;
+      // Drive at speed proportional to deflection
+      speedRef.current = Math.min(joystickMag, 1) * currentMaxSpeed;
+    } else {
+      // ── Keyboard control ──────────────────────────────────────────
+      let inputAccel = 0;
+      let inputSteering = 0;
+
+      if (keys.forward)  inputAccel    =  currentAccel;
+      if (keys.backward) inputAccel    = -currentAccel;
+      if (keys.left)     inputSteering =  CONFIG.car.steeringSpeed;
+      if (keys.right)    inputSteering = -CONFIG.car.steeringSpeed;
+
+      speedRef.current += inputAccel;
+      speedRef.current = Math.max(-currentMaxSpeed, Math.min(currentMaxSpeed, speedRef.current));
+
+      if (inputAccel === 0) speedRef.current *= CONFIG.car.friction;
+
+      if (Math.abs(speedRef.current) > 0.001) {
+        const steeringDirection = speedRef.current > 0 ? 1 : -1;
+        rotationRef.current += inputSteering * steeringDirection;
+      }
     }
 
     // Calculate forward direction from current rotation

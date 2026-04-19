@@ -7,34 +7,32 @@
 import { useEffect, useRef } from "react";
 import styles from "./MobileControls.module.css";
 
-interface MobileControlsProps {
-  activeZone: string | null;
-  onZoneEnter: (zone: string) => void;
-}
+interface MobileControlsProps {}
 
 const RADIUS = 44;       // max thumb travel in px
 const DEAD_ZONE = 0.22;  // fraction of RADIUS below which no input
 
-export function MobileControls({ activeZone, onZoneEnter }: MobileControlsProps) {
+export function MobileControls(_props: MobileControlsProps) {
   const baseRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const touchIdRef = useRef<number | null>(null);
   const centerRef = useRef({ x: 0, y: 0 });
 
   const resetKeys = () => {
-    window.keys.forward = false;
-    window.keys.backward = false;
-    window.keys.left = false;
-    window.keys.right = false;
+    window.keys.joystickX = 0;
+    window.keys.joystickZ = 0;
   };
 
   const applyKeys = (rawDx: number, rawDy: number) => {
-    const nx = rawDx / RADIUS; // –1..1
-    const ny = rawDy / RADIUS; // –1..1
-    window.keys.forward  = ny < -DEAD_ZONE;
-    window.keys.backward = ny >  DEAD_ZONE;
-    window.keys.left     = nx < -DEAD_ZONE;
-    window.keys.right    = nx >  DEAD_ZONE;
+    const mag = Math.sqrt(rawDx * rawDx + rawDy * rawDy);
+    if (mag < RADIUS * DEAD_ZONE) {
+      window.keys.joystickX = 0;
+      window.keys.joystickZ = 0;
+    } else {
+      // Normalise by RADIUS (clamped so max = 1)
+      window.keys.joystickX = Math.max(-1, Math.min(1, rawDx / RADIUS));
+      window.keys.joystickZ = Math.max(-1, Math.min(1, rawDy / RADIUS));
+    }
   };
 
   useEffect(() => {
@@ -99,10 +97,6 @@ export function MobileControls({ activeZone, onZoneEnter }: MobileControlsProps)
     };
   }, []);
 
-  const handleEnter = () => {
-    if (activeZone) onZoneEnter(activeZone);
-  };
-
   return (
     <div className={styles.controls}>
       {/* Left — joystick */}
@@ -112,9 +106,8 @@ export function MobileControls({ activeZone, onZoneEnter }: MobileControlsProps)
         </div>
       </div>
 
-      {/* Right — action buttons */}
+      {/* Right — boost button only */}
       <div className={styles.actionButtons}>
-        {/* Boost */}
         <button
           className={`${styles.actionBtn} ${styles.boostBtn}`}
           onTouchStart={(e) => { e.preventDefault(); window.keys.boost = true; }}
@@ -122,15 +115,6 @@ export function MobileControls({ activeZone, onZoneEnter }: MobileControlsProps)
           aria-label="Boost"
         >
           🔥
-        </button>
-
-        {/* Enter zone */}
-        <button
-          className={`${styles.actionBtn} ${styles.enterBtn} ${activeZone ? styles.enterBtnActive : ""}`}
-          onTouchStart={(e) => { e.preventDefault(); handleEnter(); }}
-          aria-label="Enter zone"
-        >
-          ↵
         </button>
       </div>
     </div>

@@ -58,17 +58,9 @@ export function EscapeMenu({
       {/* Modal */}
       <div className={styles.container}>
         <div className={styles.modal}>
-          {/* Close button (absolute, matching IntroModal) */}
-          <button
-            className={styles.closeButton}
-            onClick={onClose}
-            aria-label={settings.close}
-          >
-            ✕
-          </button>
-
-          {/* Header: tabs */}
+          {/* Header: scrollable tabs + close button inline */}
           <div className={styles.header}>
+            <div className={styles.tabBar}>
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
@@ -78,6 +70,14 @@ export function EscapeMenu({
                   {tab.label}
                 </button>
               ))}
+            </div>
+            <button
+              className={styles.closeButton}
+              onClick={onClose}
+              aria-label={settings.close}
+            >
+              ✕
+            </button>
           </div>
 
           {/* Tab content */}

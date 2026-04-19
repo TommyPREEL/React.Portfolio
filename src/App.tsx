@@ -204,10 +204,7 @@ export default function App() {
 
       {/* Mobile joystick controls — only rendered on touch devices */}
       {isMobile && !activeSection && !showIntro && (
-        <MobileControls
-          activeZone={activeZone}
-          onZoneEnter={(zone) => setActiveSection(zone)}
-        />
+        <MobileControls />
       )}
 
       {/* Modal Backdrop */}

@@ -39,18 +39,23 @@
   box-shadow: 0 0 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(59, 130, 246, 0.3);
 }
 
-/* ── Header: tabs ── */
+/* ── Header: tabs + close button row ── */
 .header {
   display: flex;
   align-items: stretch;
   flex-shrink: 0;
-  padding-right: 52px; /* space for absolute close button */
+  border-bottom: 2px solid rgba(148, 163, 184, 0.15);
 }
 
 .tabBar {
   display: flex;
   flex: 1;
-  padding: 0 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabBar::-webkit-scrollbar {
+  display: none;
 }
 
 .tabButton {
@@ -79,30 +84,28 @@
   border-bottom-color: #3b82f6;
 }
 
-/* ── Close button (absolute, matching IntroModal) ── */
+/* ── Close button — inline in header ── */
 .closeButton {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 1;
-  background: rgba(239, 68, 68, 0.2);
+  flex-shrink: 0;
+  align-self: center;
+  margin: 0 12px;
+  background: rgba(239, 68, 68, 0.15);
   border: 2px solid #ef4444;
   color: #ef4444;
-  font-size: 24px;
+  font-size: 18px;
   cursor: pointer;
-  padding: 8px 12px;
   border-radius: 8px;
   font-weight: bold;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .closeButton:hover {
-  background: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.35);
 }
 
 /* Remove focus outline on all buttons */
@@ -388,4 +391,54 @@
 .mapLegendSep {
   margin: 0 4px;
   color: #475569;
+}
+
+/* ── Mobile responsive ── */
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    border-radius: 12px;
+  }
+
+  .tabButton {
+    font-size: 0.75rem;
+    padding: 14px 12px 12px;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .tabContent {
+    padding: 20px 16px;
+  }
+
+  .homeTitle {
+    font-size: 1.4rem;
+  }
+
+  .homeDesc {
+    font-size: 0.9rem;
+  }
+
+  .controlKeys {
+    min-width: 120px;
+  }
+
+  .controlKbd {
+    min-width: 30px;
+    height: 28px;
+    font-size: 0.72rem;
+  }
+
+  .mapCanvas {
+    height: 150px;
+  }
+
+  .mapZoneIcon {
+    font-size: 16px;
+  }
+
+  .mapZoneLabel {
+    font-size: 0.55rem;
+  }
 }
