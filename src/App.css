@@ -42,6 +42,8 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent pull-to-refresh and overscroll on mobile */
+  overscroll-behavior: none;
 }
 
 /* =====================================================
@@ -57,6 +59,8 @@ html, body {
   background: linear-gradient(180deg, #0c1929 0%, #1e3a5f 50%, #0f172a 100%);
   overflow: hidden;
   color: var(--text-primary);
+  /* Prevent browser gestures (back-swipe, zoom) from interfering */
+  touch-action: none;
 }
 
 /* =====================================================
@@ -488,17 +492,19 @@ html, body {
   .ui-overlay {
     width: 95%;
     max-width: 100%;
-    max-height: 90vh;
-    padding: 24px;
+    /* Leave room for joystick controls at the bottom */
+    max-height: 80vh;
+    padding: 20px;
     border-radius: 12px;
   }
 
   .content-container h1 {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 
   .projects-grid {
     grid-template-columns: 1fr;
+    max-height: 45vh;
   }
 
   .content-about .highlights ul {
@@ -508,22 +514,25 @@ html, body {
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
-
 }
 
 @media (max-width: 480px) {
   .ui-overlay {
-    padding: 20px;
+    padding: 16px;
     border-radius: 8px;
+    max-height: 78vh;
   }
 
   .content-container h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   .skills-grid {
     grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    max-height: 42vh;
   }
 }
 

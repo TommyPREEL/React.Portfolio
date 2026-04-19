@@ -16,6 +16,16 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
+@media (max-width: 768px) {
+  .minimap {
+    width: 130px;
+    height: 44px;
+    top: 12px;
+    right: 12px;
+    padding: 5px;
+  }
+}
+
 .mapContent {
   position: relative;
   width: 100%;

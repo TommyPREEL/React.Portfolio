@@ -32,7 +32,7 @@ import { isHWAccelEnabled } from "./utils/detectHWAccel";
 import { World } from "./components/3d";
 
 // UI Components
-import { Minimap, IntroModal, HWAccelWarning, PortfolioTitle, SettingsPanel, EscapeMenu } from "./components/ui";
+import { Minimap, IntroModal, HWAccelWarning, MobileControls, PortfolioTitle, SettingsPanel, EscapeMenu } from "./components/ui";
 import ContentPanel from "./components/ContentPanel";
 
 // Styles
@@ -50,6 +50,9 @@ export default function App() {
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [showIntro, setShowIntro] = useState(true);
   const [showHWAccelWarning, setShowHWAccelWarning] = useState(false);
+
+  // Detect touch device (pointer: coarse = touchscreen)
+  const isMobile = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
 
   const handleIntroClose = () => {
     setShowIntro(false);
@@ -198,6 +201,14 @@ export default function App() {
           />
         </Canvas>
       </div>
+
+      {/* Mobile joystick controls — only rendered on touch devices */}
+      {isMobile && !activeSection && !showIntro && (
+        <MobileControls
+          activeZone={activeZone}
+          onZoneEnter={(zone) => setActiveSection(zone)}
+        />
+      )}
 
       {/* Modal Backdrop */}
       {activeSection && (
