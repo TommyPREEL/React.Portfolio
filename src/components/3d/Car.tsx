@@ -16,7 +16,7 @@ import type { CarProps } from "../../types";
 export function Car({ position, onMove, isDisabled, teleportTarget, onTeleportComplete }: CarProps) {
   const carRef = useRef<THREE.Group>(null);
   const speedRef = useRef(0);
-  const rotationRef = useRef(0);
+  const rotationRef = useRef(Math.PI / 2);
   const teleportRef = useRef<THREE.Vector3 | null>(null);
   const [isBoosting, setIsBoosting] = useState(false);
 

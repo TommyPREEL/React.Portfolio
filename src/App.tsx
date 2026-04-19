@@ -45,7 +45,7 @@ export default function App() {
   // Application state
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [language, setLanguage] = useState<Language>("en");
-  const [carPosition, setCarPosition] = useState(new THREE.Vector3(-30, 0.25, 0));
+  const [carPosition, setCarPosition] = useState(new THREE.Vector3(-30, 0.25, 2.5));
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [showIntro, setShowIntro] = useState(true);
   const [showEscapeMenu, setShowEscapeMenu] = useState(false);
@@ -65,7 +65,7 @@ export default function App() {
     const zone = ZONES.find((z) => z.id === zoneId);
     if (zone) {
       // Place car slightly in front of the zone (offset Z so it enters the zone)
-      setTeleportTarget(new THREE.Vector3(zone.position[0], 0.25, zone.position[2] + 4));
+      setTeleportTarget(new THREE.Vector3(zone.position[0], 0, zone.position[2] + 4));
     }
   }, []);
 
