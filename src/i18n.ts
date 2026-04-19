@@ -113,11 +113,25 @@ const EN: Content = {
         link: "",
       },
       {
-        name: "Meet4Play",
+        name: "MiniGames",
         description:
-          "A gamified web app that helps people break the ice and connect during live events. Built from scratch, tested with 50 real users. Taught me a lot about fullstack architecture, containerization, and automated releases.",
-        technologies: ["React", "ExpressJS", "Docker", "CI/CD"],
-        link: "",
+          "7 party games in one place — play Undercover, Fake Artist, Wavelength and more with friends, whether you're in the same room or miles apart.",
+        technologies: ["HTML", "JavaScript", "Node.js", "WebSocket", "PWA"],
+        link: "https://minigames.tommy-tech.fr",
+      },
+      {
+        name: "PvPedia",
+        description:
+          "Race against other players to uncover a hidden Wikipedia article. Guess words to reveal the text and be the first to name the title.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://pvpedia.tommy-tech.fr",
+      },
+      {
+        name: "Kahoot",
+        description:
+          "Host and play live quizzes with friends. Build your quiz, share a room code, and let everyone compete on their own device in real time.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://kahoot.tommy-tech.fr",
       },
       {
         name: "Self-Hosted Server",
@@ -259,11 +273,25 @@ const FR: Content = {
         link: "",
       },
       {
-        name: "Meet4Play",
+        name: "MiniGames",
         description:
-          "Une application web gamifiée pour aider les gens à se rencontrer lors d'événements en live. Construite de zéro, testée avec 50 vrais utilisateurs. J'y ai beaucoup appris sur l'architecture fullstack, la conteneurisation et les releases automatisées.",
-        technologies: ["React", "ExpressJS", "Docker", "CI/CD"],
-        link: "",
+          "7 jeux de soirée en un seul endroit — jouez à Undercover, Fake Artist, Wavelength et plus encore avec vos amis, dans la même pièce ou à distance.",
+        technologies: ["HTML", "JavaScript", "Node.js", "WebSocket", "PWA"],
+        link: "https://minigames.tommy-tech.fr",
+      },
+      {
+        name: "PvPedia",
+        description:
+          "Course contre d'autres joueurs pour découvrir un article Wikipédia caché. Devinez des mots pour révéler le texte et soyez le premier à trouver le titre.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://pvpedia.tommy-tech.fr",
+      },
+      {
+        name: "Kahoot",
+        description:
+          "Créez et jouez des quiz en direct avec vos amis. Construisez votre quiz, partagez un code de salle, et laissez tout le monde s'affronter sur son propre appareil en temps réel.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://kahoot.tommy-tech.fr",
       },
       {
         name: "Serveur Auto-Hébergé",
