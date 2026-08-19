@@ -135,11 +135,32 @@ const EN: Content = {
         link: "https://pvpedia.tommy-tech.fr",
       },
       {
-        name: "Kahoot",
+        name: "BlitzQuiz",
         description:
           "Host and play live quizzes with friends. Build your quiz, share a room code, and let everyone compete on their own device in real time.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
-        link: "https://kahoot.tommy-tech.fr",
+        link: "https://blitzquiz.tommy-tech.fr",
+      },
+      {
+        name: "Blindtest",
+        description:
+          "Multiplayer music blindtest where players race to identify songs as fast as possible. Host a room, share the code, and see who has the best music knowledge.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://blindtest.tommy-tech.fr",
+      },
+      {
+        name: "Scrum Poker",
+        description:
+          "Planning poker tool for agile teams. Create a room, invite your team, and vote on story points in real time — perfect for remote sprint planning sessions.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://scrum-poker.tommy-tech.fr",
+      },
+      {
+        name: "Reflex Game",
+        description:
+          "Competitive reaction-time game for groups. A dot appears on screen and players race to click it first — find out who has the fastest reflexes in the room.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://reflex-game.tommy-tech.fr",
       },
       {
         name: "Self-Hosted Server",
@@ -304,11 +325,32 @@ const FR: Content = {
         link: "https://pvpedia.tommy-tech.fr",
       },
       {
-        name: "Kahoot",
+        name: "BlitzQuiz",
         description:
           "Créez et jouez des quiz en direct avec vos amis. Construisez votre quiz, partagez un code de salle, et laissez tout le monde s'affronter sur son propre appareil en temps réel.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
-        link: "https://kahoot.tommy-tech.fr",
+        link: "https://blitzquiz.tommy-tech.fr",
+      },
+      {
+        name: "Blindtest",
+        description:
+          "Blindtest musical multijoueur où les joueurs s'affrontent pour identifier des chansons le plus vite possible. Créez une salle, partagez le code, et découvrez qui a la meilleure culture musicale.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://blindtest.tommy-tech.fr",
+      },
+      {
+        name: "Scrum Poker",
+        description:
+          "Outil de planning poker pour les équipes agiles. Créez une salle, invitez votre équipe, et votez sur les story points en temps réel — idéal pour les sessions de sprint planning à distance.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://scrum-poker.tommy-tech.fr",
+      },
+      {
+        name: "Reflex Game",
+        description:
+          "Jeu de temps de réaction compétitif en groupe. Un point apparaît à l'écran et les joueurs s'affrontent pour cliquer dessus le premier — découvrez qui a les réflexes les plus rapides dans la salle.",
+        technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
+        link: "https://reflex-game.tommy-tech.fr",
       },
       {
         name: "Serveur Auto-Hébergé",
