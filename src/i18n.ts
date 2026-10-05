@@ -121,6 +121,13 @@ const EN: Content = {
         link: "",
       },
       {
+        name: "MangaSensei",
+        description:
+          "Collect cards featuring manga characters, trade with other players, and battle them. Social features and rankings make every collection competitive.",
+        technologies: ["React", "PostgreSQL", "Vitest", "Playwright"],
+        link: "https://manga-sensei.tommy-tech.fr",
+      },
+      {
         name: "MiniGames",
         description:
           "7 party games in one place — play Undercover, Fake Artist, Wavelength and more with friends, whether you're in the same room or miles apart.",
@@ -309,6 +316,13 @@ const FR: Content = {
           "Deux applications développées chez Airbus : un visualiseur de pièces d'avion sous forme d'arbre de données (back office), et un outil de détection de substances dangereuses. Basées sur Angular, avec un fort accent sur les tests, la sécurité et la qualité du code.",
         technologies: ["Angular", "TypeScript", "AWS", "CI/CD"],
         link: "",
+      },
+      {
+        name: "MangaSensei",
+        description:
+          "Collectionnez des cartes de personnages de manga, échangez-les avec d'autres joueurs et affrontez-les. Les interactions sociales et le classement ajoutent une dimension compétitive à chaque collection.",
+        technologies: ["React", "PostgreSQL", "Vitest", "Playwright"],
+        link: "https://manga-sensei.tommy-tech.fr",
       },
       {
         name: "MiniGames",
