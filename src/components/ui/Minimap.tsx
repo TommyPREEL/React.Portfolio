@@ -4,60 +4,60 @@
  */
 
 import type { MinimapProps } from "../../types";
+import type { Language } from "../../i18n";
+import { getContent } from "../../i18n";
 import { ZONES, CONFIG } from "../../config";
+import { projectToMinimap } from "../../lib/map";
+import { ZoneIcon } from "./icons";
 import styles from "./Minimap.module.css";
 
 /**
  * Minimap - Real-time position indicator
  * Shows car position relative to zones (horizontal layout)
  */
-export function Minimap({ carPosition, activeZone, onZoneClick }: MinimapProps) {
-  // Calculate car position percentage for horizontal world (width=80, depth=30)
-  // X: -40 to 40 -> 5% to 95%
-  // Z: -15 to 15 -> 20% to 80%
-  const halfWidth = CONFIG.world.width / 2;
-  const halfDepth = CONFIG.world.depth / 2;
-  const carX = 50 + (carPosition.x / halfWidth) * 45;
-  const carY = 50 + (carPosition.z / halfDepth) * 30;
+export function Minimap({
+  carPosition,
+  activeZone,
+  onZoneClick,
+  language = "en",
+}: MinimapProps & { language?: Language }) {
+  const { navigation, ui } = getContent(language);
+  const clamp = (v: number) => Math.max(6, Math.min(94, v));
+  const car = projectToMinimap(carPosition.x, carPosition.z, CONFIG.world, 44, 44);
 
   return (
-    <div className={styles.minimap}>
+    <nav className={styles.minimap + " cut cut-sm"} aria-label={ui.hud.map}>
       <div className={styles.mapContent}>
-        {/* Zone icons - positioned based on actual zone positions */}
+        <div className={styles.track} aria-hidden="true" />
         {ZONES.map((zone) => {
-          // Calculate position based on zone's actual X position
-          // Zone positions: -24, -8, 8, 24 -> map to 10%-90%
-          const xPos = 50 + (zone.position[0] / halfWidth) * 40;
-          
+          const pt = projectToMinimap(zone.position[0], zone.position[2], CONFIG.world, 42, 38);
+          const label = navigation[zone.id as keyof typeof navigation] ?? zone.id;
+          const active = activeZone === zone.id;
           return (
-            <button 
+            <button
               key={zone.id}
-              className={styles.zoneIcon}
-              style={{
-                left: `${xPos}%`,
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-                opacity: activeZone === zone.id ? 1 : 0.5
-              }}
+              type="button"
+              className={styles.zoneIcon + (active ? " " + styles.zoneActive : "")}
+              style={{ left: pt.x + "%", top: pt.y + "%" }}
               onClick={() => onZoneClick(zone.id)}
-              title={zone.label}
+              aria-label={label}
+              title={label}
+              aria-current={active ? "true" : undefined}
             >
-              {zone.icon}
+              <ZoneIcon id={zone.id} size={22} />
             </button>
           );
         })}
-        
-        {/* Horizontal path indicator */}
-        
-        {/* Car position indicator */}
-        <div 
+
+        <div
           className={styles.carIndicator}
+          aria-hidden="true"
           style={{
-            left: `${Math.max(5, Math.min(95, carX))}%`,
-            top: `${Math.max(20, Math.min(80, carY))}%`,
+            left: clamp(car.x) + "%",
+            top: clamp(car.y) + "%",
           }}
         />
       </div>
-    </div>
+    </nav>
   );
 }

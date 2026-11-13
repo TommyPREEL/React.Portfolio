@@ -1,0 +1,143 @@
+.card {
+  position: relative;
+  --cut: var(--cut-sm);
+  --panel: var(--matter-700);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Highlighted card: the line color becomes the active orange */
+.card[data-highlighted="true"] {
+  background: var(--orange);
+}
+
+.shot {
+  aspect-ratio: 16 / 10;
+  background: var(--matter-900);
+  border-bottom: var(--border) solid var(--line);
+  margin: var(--border) var(--border) 0;
+  overflow: hidden;
+}
+
+/* Third-party screenshot presented as a terminal screen: bezel + vignette + muted colour */
+.shot {
+  position: relative;
+  border: var(--border) solid var(--line);
+}
+
+.shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 28px 6px var(--matter-900);
+  opacity: 0.8;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.75) brightness(0.9);
+  transition: filter var(--dur) var(--ease);
+}
+
+.card:hover .shot img,
+.card:focus-within .shot img,
+.card[data-highlighted="true"] .shot img {
+  filter: none;
+}
+
+.card:hover .shot::after,
+.card:focus-within .shot::after,
+.card[data-highlighted="true"] .shot::after {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shot img,
+  .shot::after {
+    transition: none;
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  flex: 1;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.role {
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+}
+
+.roleLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-right: var(--space-1);
+}
+
+.pitch {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  max-width: 62ch;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  margin: var(--space-1) 0 0;
+  list-style: none;
+}
+
+.chip {
+  padding: 2px var(--space-2);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  font-size: var(--fs-xs);
+  color: var(--text);
+  background: var(--matter-900);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  min-height: var(--hit);
+  margin-top: auto;
+  padding: 0 var(--space-3);
+  border: var(--border) solid var(--cyan-dim);
+  border-radius: var(--radius);
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--track);
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.link:hover {
+  border-color: var(--cyan);
+  transform: translateY(-1px);
+}

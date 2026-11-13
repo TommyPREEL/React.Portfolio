@@ -1,62 +1,100 @@
-/**
- * HWAccelWarning — slim top banner styles
- */
-
-.banner {
+/* Compact toast: bottom-left on desktop, top (beside the HUD buttons) on touch layouts */
+.toast {
+  --panel: var(--matter-800);
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 10002;
-  background: linear-gradient(90deg, rgba(120, 80, 0, 0.97) 0%, rgba(92, 60, 0, 0.97) 100%);
-  border-bottom: 2px solid #fbbf24;
+  left: calc(var(--space-4) + var(--safe-left));
+  bottom: calc(var(--space-4) + var(--safe-bottom));
+  z-index: calc(var(--z-hud) + 1);
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  animation: slideDown 0.3s ease;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: min(360px, calc(100vw - 2 * var(--space-4)));
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+  border-left: 3px solid var(--orange);
+  color: var(--text);
+  animation: rise var(--dur) var(--ease);
 }
 
-@keyframes slideDown {
-  from { transform: translateY(-100%); opacity: 0; }
-  to   { transform: translateY(0);     opacity: 1; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  line-height: 1;
+  flex: 0 0 auto;
+  margin-top: 12px;
+  color: var(--orange);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-2) 0;
 }
 
 .text {
-  flex: 1;
-  font-size: 0.82rem;
-  color: #fef3c7;
-  line-height: 1.45;
+  font-size: var(--fs-xs);
+  line-height: 1.35;
+  color: var(--text-dim);
 }
 
 .text strong {
-  color: #fbbf24;
-  font-weight: 700;
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--track);
+  color: var(--text);
+}
+
+.expressLink {
+  min-height: var(--hit);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--track);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
 
 .closeButton {
-  flex-shrink: 0;
-  background: none;
-  border: 1px solid rgba(251, 191, 36, 0.4);
-  color: #fbbf24;
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 0.78rem;
-  font-weight: 600;
+  flex: 0 0 auto;
+  width: var(--hit);
+  height: var(--hit);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--text);
   cursor: pointer;
-  transition: background 0.2s ease;
-  white-space: nowrap;
 }
 
 .closeButton:hover {
-  background: rgba(251, 191, 36, 0.15);
+  color: var(--orange);
+}
+
+@media (max-width: 768px) {
+  .toast {
+    /* below the HUD row (gear + sound + express) */
+    top: calc(var(--space-3) + var(--safe-top) + var(--hit) + var(--space-2));
+    bottom: auto;
+    left: calc(var(--space-3) + var(--safe-left));
+    right: calc(var(--space-3) + var(--safe-right));
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
 }

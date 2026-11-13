@@ -5,14 +5,23 @@
  */
 
 import { useEffect, useRef } from "react";
+import type { Language } from "../../i18n";
+import { getContent } from "../../i18n";
+import { ArrowIcon, BoostIcon } from "./icons";
 import styles from "./MobileControls.module.css";
 
-interface MobileControlsProps {}
+export interface MobileControlsProps {
+  language?: Language;
+  /** Big contextual button (e.g. "Open Projects") shown when a zone is nearby. */
+  actionLabel?: string;
+  onAction?: () => void;
+}
 
 const RADIUS = 44;       // max thumb travel in px
 const DEAD_ZONE = 0.22;  // fraction of RADIUS below which no input
 
-export function MobileControls(_props: MobileControlsProps) {
+export function MobileControls({ language = "en", actionLabel, onAction }: MobileControlsProps) {
+  const { mobile } = getContent(language).ui;
   const baseRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
   const touchIdRef = useRef<number | null>(null);
@@ -21,6 +30,7 @@ export function MobileControls(_props: MobileControlsProps) {
   const resetKeys = () => {
     window.keys.joystickX = 0;
     window.keys.joystickZ = 0;
+    window.keys.boost = false;
   };
 
   const applyKeys = (rawDx: number, rawDy: number) => {
@@ -99,22 +109,30 @@ export function MobileControls(_props: MobileControlsProps) {
 
   return (
     <div className={styles.controls}>
-      {/* Left — joystick */}
+      {/* Left: joystick */}
       <div className={styles.joystickWrapper}>
-        <div ref={baseRef} className={styles.joystickBase}>
+        <div ref={baseRef} className={styles.joystickBase} role="group" aria-label={mobile.joystick}>
           <div ref={thumbRef} className={styles.joystickThumb} />
         </div>
       </div>
 
-      {/* Right — boost button only */}
+      {/* Right: contextual action + boost */}
       <div className={styles.actionButtons}>
+        {actionLabel && onAction && (
+          <button type="button" className={styles.actionPrimary} onClick={onAction}>
+            {actionLabel}
+            <ArrowIcon size={20} />
+          </button>
+        )}
         <button
-          className={`${styles.actionBtn} ${styles.boostBtn}`}
+          type="button"
+          className={styles.boostBtn}
           onTouchStart={(e) => { e.preventDefault(); window.keys.boost = true; }}
-          onTouchEnd={(e)   => { e.preventDefault(); window.keys.boost = false; }}
-          aria-label="Boost"
+          onTouchEnd={(e) => { e.preventDefault(); window.keys.boost = false; }}
+          onTouchCancel={() => { window.keys.boost = false; }}
+          aria-label={mobile.boost}
         >
-          🔥
+          <BoostIcon size={26} />
         </button>
       </div>
     </div>

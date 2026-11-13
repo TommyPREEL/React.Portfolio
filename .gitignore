@@ -27,3 +27,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 3D pipeline & tests
+art/export/
+*.blend1
+test-results/
+playwright-report/

@@ -1,15 +1,28 @@
 /**
- * @fileoverview Escape Menu — tabbed pause modal
+ * @fileoverview Escape Menu - tabbed pause modal
  * Opens when the user presses Escape; shows Home, Controls, Settings, Map tabs
  */
 
-import { useState } from "react";
+import { useId, useRef, useState } from "react";
 import type { EscapeMenuProps } from "../../types";
 import { getContent, allLanguages } from "../../i18n";
 import { ZONES, CONFIG } from "../../config";
+import { projectToMinimap } from "../../lib/map";
+import { CloseIcon, SoundOnIcon, SoundOffIcon, ZoneIcon } from "./icons";
+import { useDialog } from "./useDialog";
 import styles from "./EscapeMenu.module.css";
 
 type Tab = "home" | "controls" | "settings" | "map";
+export type QualityMode = "auto" | "high" | "low";
+
+export interface EscapeMenuExtraProps {
+  /** Sound toggle row appears only if onSoundToggle is provided. */
+  soundEnabled?: boolean;
+  onSoundToggle?: () => void;
+  /** Quality select appears only if onQualityChange is provided. */
+  quality?: QualityMode;
+  onQualityChange?: (quality: QualityMode) => void;
+}
 
 /**
  * EscapeMenu - Tabbed modal accessible via the Escape key
@@ -22,11 +35,19 @@ export function EscapeMenu({
   onClose,
   onZoneClick,
   initialTab = "home",
-}: EscapeMenuProps) {
+  soundEnabled = false,
+  onSoundToggle,
+  quality = "auto",
+  onQualityChange,
+}: EscapeMenuProps & EscapeMenuExtraProps) {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   const content = getContent(language);
   const { navigation } = content;
   const { settings, escapeMenu, intro } = content.ui;
+  const ref = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+  const baseId = useId();
+  useDialog(ref, onClose);
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "home", label: escapeMenu.tabHome },
@@ -35,78 +56,104 @@ export function EscapeMenu({
     { id: "map", label: escapeMenu.tabMap },
   ];
 
-  // Map math (same as Minimap)
-  const halfWidth = CONFIG.world.width / 2;
-  const halfDepth = CONFIG.world.depth / 2;
-  const carX = 50 + (carPosition.x / halfWidth) * 45;
-  const carY = 50 + (carPosition.z / halfDepth) * 30;
+  // Map math: shared helper with the Minimap so every zone and the car stay inside the frame
+  const clampPct = (v: number) => Math.max(6, Math.min(94, v));
+  const car = projectToMinimap(carPosition.x, carPosition.z, CONFIG.world, 44, 44);
 
-  // Zone id → translated label lookup
-  const zoneLabel = (id: string): string =>
-    navigation[id as keyof typeof navigation] ?? id;
+  const zoneLabel = (id: string): string => navigation[id as keyof typeof navigation] ?? id;
 
   const handleZoneClick = (zoneId: string) => {
     onZoneClick(zoneId);
     onClose();
   };
 
+  // Arrow keys move between tabs (WAI-ARIA tabs pattern)
+  const onTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let next = index;
+    if (e.key === "ArrowRight") next = (index + 1) % tabs.length;
+    else if (e.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+    else return;
+    e.preventDefault();
+    const target = tabs[next];
+    if (!target) return;
+    setActiveTab(target.id);
+    document.getElementById(baseId + "-tab-" + target.id)?.focus();
+  };
+
+  const qualityOptions: { id: QualityMode; label: string }[] = [
+    { id: "auto", label: settings.qualityAuto },
+    { id: "high", label: settings.qualityHigh },
+    { id: "low", label: settings.qualityLow },
+  ];
+
   return (
     <>
-      {/* Backdrop */}
       <div className={styles.backdrop} onClick={onClose} />
 
-      {/* Modal */}
       <div className={styles.container}>
-        <div className={styles.modal}>
-          {/* Header: scrollable tabs + close button inline */}
+        <div
+          ref={ref}
+          className={styles.modal + " cut"}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          tabIndex={-1}
+        >
+          <h2 id={titleId} className="visually-hidden">{escapeMenu.menuTitle}</h2>
+
           <div className={styles.header}>
-            <div className={styles.tabBar}>
-              {tabs.map((tab) => (
+            <div className={styles.tabBar} role="tablist" aria-label={escapeMenu.menuTitle}>
+              {tabs.map((tab, i) => (
                 <button
                   key={tab.id}
-                  className={`${styles.tabButton}${activeTab === tab.id ? ` ${styles.tabActive}` : ""}`}
+                  type="button"
+                  role="tab"
+                  id={baseId + "-tab-" + tab.id}
+                  aria-selected={activeTab === tab.id}
+                  aria-controls={baseId + "-panel"}
+                  tabIndex={activeTab === tab.id ? 0 : -1}
+                  className={styles.tabButton + (activeTab === tab.id ? " " + styles.tabActive : "")}
                   onClick={() => setActiveTab(tab.id)}
+                  onKeyDown={(e) => onTabKeyDown(e, i)}
                 >
                   {tab.label}
                 </button>
               ))}
             </div>
-            <button
-              className={styles.closeButton}
-              onClick={onClose}
-              aria-label={settings.close}
-            >
-              ✕
+            <button type="button" className={styles.closeButton} onClick={onClose} aria-label={settings.close}>
+              <CloseIcon size={22} />
             </button>
           </div>
 
-          {/* Tab content */}
-          <div className={styles.tabContent}>
-
-            {/* HOME */}
+          <div
+            className={styles.tabContent}
+            role="tabpanel"
+            id={baseId + "-panel"}
+            aria-labelledby={baseId + "-tab-" + activeTab}
+          >
             {activeTab === "home" && (
               <div className={styles.homeTab}>
-                <h2 className={styles.homeTitle}>{intro.title}</h2>
+                <h3 className={styles.homeTitle}>{intro.title}</h3>
                 <p className={styles.homeDesc}>{intro.description}</p>
-                <div className={styles.homeControls}>
-                  <h3 className={styles.homeControlsTitle}>{intro.controlsTitle}</h3>
-                  <ul className={styles.homeControlsList}>
-                    {intro.controls.map((line, i) => (
-                      <li key={i} dangerouslySetInnerHTML={{ __html: line }} />
-                    ))}
-                  </ul>
-                </div>
+                <h4 className={styles.sectionLabel}>{intro.controlsTitle}</h4>
+                <ul className={styles.homeList}>
+                  {intro.controls.map((item) => (
+                    <li key={item.key}>
+                      <kbd className={styles.controlKbd}>{item.key}</kbd>
+                      <span>{item.action}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 
-            {/* CONTROLS */}
             {activeTab === "controls" && (
               <div className={styles.controlsTab}>
-                {escapeMenu.controls.map((ctrl, i) => (
-                  <div key={i} className={styles.controlRow}>
+                {escapeMenu.controls.map((ctrl) => (
+                  <div key={ctrl.keys} className={styles.controlRow}>
                     <div className={styles.controlKeys}>
                       {ctrl.keys.split(" / ").map((part, j) => (
-                        <span key={j}>
+                        <span key={part}>
                           {j > 0 && <span className={styles.controlOr}>{escapeMenu.controlOr}</span>}
                           <kbd className={styles.controlKbd}>{part}</kbd>
                         </span>
@@ -118,16 +165,19 @@ export function EscapeMenu({
               </div>
             )}
 
-            {/* SETTINGS */}
             {activeTab === "settings" && (
               <div className={styles.settingsTab}>
                 <div className={styles.settingsSection}>
-                  <p className={styles.settingsLabel}>{settings.languageLabel}</p>
-                  <div className={styles.langToggle}>
-                    {allLanguages.map(({ code }) => (
+                  <p className={styles.settingsLabel} id={baseId + "-lang"}>{settings.languageLabel}</p>
+                  <div className={styles.segment} role="group" aria-labelledby={baseId + "-lang"}>
+                    {allLanguages.map(({ code, name }) => (
                       <button
                         key={code}
-                        className={`${styles.langButton}${language === code ? ` ${styles.langActive}` : ""}`}
+                        type="button"
+                        lang={code}
+                        aria-label={name}
+                        aria-pressed={language === code}
+                        className={styles.segmentButton + (language === code ? " " + styles.segmentActive : "")}
                         onClick={() => onLanguageChange(code)}
                       >
                         {code.toUpperCase()}
@@ -135,46 +185,77 @@ export function EscapeMenu({
                     ))}
                   </div>
                 </div>
+
+                {onSoundToggle && (
+                  <div className={styles.settingsSection}>
+                    <p className={styles.settingsLabel}>{settings.soundLabel}</p>
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={soundEnabled}
+                      className={styles.switchButton + (soundEnabled ? " " + styles.segmentActive : "")}
+                      onClick={onSoundToggle}
+                    >
+                      {soundEnabled ? <SoundOnIcon size={22} /> : <SoundOffIcon size={22} />}
+                      <span>{soundEnabled ? settings.soundOn : settings.soundOff}</span>
+                    </button>
+                  </div>
+                )}
+
+                {onQualityChange && (
+                  <div className={styles.settingsSection}>
+                    <p className={styles.settingsLabel} id={baseId + "-quality"}>{settings.qualityLabel}</p>
+                    <div className={styles.segment} role="radiogroup" aria-labelledby={baseId + "-quality"}>
+                      {qualityOptions.map((opt) => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          role="radio"
+                          aria-checked={quality === opt.id}
+                          className={styles.segmentButton + (quality === opt.id ? " " + styles.segmentActive : "")}
+                          onClick={() => onQualityChange(opt.id)}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                    <p className={styles.hint}>{settings.qualityHint}</p>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* MAP */}
             {activeTab === "map" && (
               <div className={styles.mapTab}>
                 <div className={styles.mapCanvas}>
-                  {/* Zone icons */}
                   {ZONES.map((zone) => {
-                    const xPos = 50 + (zone.position[0] / halfWidth) * 40;
+                    const pt = projectToMinimap(zone.position[0], zone.position[2], CONFIG.world, 38, 34);
                     return (
                       <button
                         key={zone.id}
-                        className={styles.mapZone}
-                        style={{
-                          left: `${xPos}%`,
-                          top: "50%",
-                          transform: "translate(-50%, -50%)",
-                          opacity: activeZone === zone.id ? 1 : 0.6,
-                        }}
+                        type="button"
+                        className={styles.mapZone + (activeZone === zone.id ? " " + styles.mapZoneActive : "")}
+                        style={{ left: pt.x + "%", top: pt.y + "%" }}
                         onClick={() => handleZoneClick(zone.id)}
-                        title={zoneLabel(zone.id)}
+                        aria-label={zoneLabel(zone.id)}
                       >
-                        <span className={styles.mapZoneIcon}>{zone.icon}</span>
+                        <ZoneIcon id={zone.id} size={24} />
                         <span className={styles.mapZoneLabel}>{zoneLabel(zone.id)}</span>
                       </button>
                     );
                   })}
-                  {/* Car */}
                   <div
                     className={styles.mapCar}
                     style={{
-                      left: `${Math.max(5, Math.min(95, carX))}%`,
-                      top: `${Math.max(20, Math.min(80, carY))}%`,
+                      left: clampPct(car.x) + "%",
+                      top: clampPct(car.y) + "%",
                     }}
                   />
                 </div>
                 <p className={styles.mapLegend}>
-                  <span className={styles.mapCarDot} /> {escapeMenu.mapYourPosition}
-                  <span className={styles.mapLegendSep}>·</span>
+                  <span className={styles.mapCarDot} />
+                  {escapeMenu.mapYourPosition}
+                  <span className={styles.mapLegendSep}>/</span>
                   {escapeMenu.mapTeleportHint}
                 </p>
               </div>
