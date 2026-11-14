@@ -267,6 +267,80 @@
   color: var(--on-accent);
 }
 
+/* Volume sliders: label | track | value, one row per channel */
+.volumes {
+  display: grid;
+  gap: var(--space-1);
+  max-width: 460px;
+}
+
+.volumeRow {
+  display: grid;
+  grid-template-columns: minmax(84px, 7.5rem) 1fr 3.5ch;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--hit);
+}
+
+.volumeName {
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+
+.volumeValue {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  color: var(--text-dim);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.volumeSlider {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: var(--hit);
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Track: cyan up to the value, line colour after it */
+.volumeSlider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: linear-gradient(to right, var(--cyan) var(--fill), var(--line) var(--fill));
+}
+.volumeSlider::-moz-range-track {
+  height: 4px;
+  background: var(--line);
+}
+.volumeSlider::-moz-range-progress {
+  height: 4px;
+  background: var(--cyan);
+}
+
+/* Thumb: small square, like the minimap car dot */
+.volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  background: var(--cyan);
+  border: 2px solid var(--matter-900);
+}
+.volumeSlider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 0;
+  background: var(--cyan);
+  border: 2px solid var(--matter-900);
+}
+
+.volumeSlider:focus-visible {
+  outline-offset: -8px;
+}
+
 .hint {
   font-size: var(--fs-sm);
   color: var(--text-dim);
@@ -281,7 +355,7 @@
 
 .mapCanvas {
   position: relative;
-  height: 240px;
+  height: 280px;
   background: var(--matter-900);
   border: var(--border) solid var(--line);
   border-radius: var(--radius);
@@ -303,10 +377,13 @@
   min-width: var(--hit);
   min-height: var(--hit);
   display: flex;
-  flex-direction: column;
+  /* Icon and label side by side: projects and contact share x = 0, so a stacked
+     (column) layout made the two buttons overlap vertically. */
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
+  white-space: nowrap;
   padding: var(--space-1);
   background: var(--matter-800);
   border: var(--border) solid var(--line);

@@ -8,13 +8,15 @@
 - Socle qualité : Vitest (59 tests : physique, triggers, carte, i18n, routes, langue…), Playwright (24 e2e desktop + mobile, captures `test-results/visual/`), CI `verify` (lint + typecheck + tests) avant déploiement, Node 22.
 - Perf : pose voiture dans un store zustand (plus de setState par frame), UI à 8 Hz, 3D en chunk séparé (`GameCanvas` lazy), mémoire GPU libérée.
 - Scène : île de nuit 130×90, circuit, grille locale autour de la voiture, traînée lumineuse, bloom sélectif, paliers de qualité, landmarks procéduraux, blocs de compétences poussables, écrans d'arcade avec captures.
-- UI refaite : tokens, Chakra Petch + IBM Plex Sans, icônes SVG maison, zéro emoji, panneaux « terminal », loader, prompt d'interaction, version express `/express`, liens directs `/projects/<id>`, langue détectée + mémorisée, toggle son (moteur son à faire), garde-fou WebGL → express.
+- UI refaite : tokens, Chakra Petch + IBM Plex Sans, icônes SVG maison, zéro emoji, panneaux « terminal », loader, prompt d'interaction, version classique `/classic`, liens directs `/projects/<id>`, langue détectée + mémorisée, son + volumes par canal, garde-fou WebGL → version classique.
 - Textes EN/FR réécrits (copywriter). Captures des 7 projets web dans `public/projects/`.
 - Blender intégré (tous < budgets) : voiture (4,4k tris), borne d'arcade ×7 (instanciée), baie serveur, antenne (`landmarks-a.blend`), garage, hangar + avion, maquette de l'île (`landmarks-b.blend`). Scène au spawn : ~40 draw calls, ~28k tris.
+- 2026-11-14 : sons réels (CC0 + 1 CC-BY crédité) : moteur, boost, ambiances arcade/avion/serveur/antenne, thème, UI, blocs. Focus des menus et carte corrigés.
+- 2026-11-14 : volumes par canal (général 50 %, musique 35 %, effets 80 %, ambiances 70 %, interface 60 %, mémorisés : `portfolio.volumes`) dans Paramètres. « Express » renommé « Version classique » (`/classic` uniquement).
 - 2026-11-12 : gate complète verte (typecheck, lint, 59 Vitest, build, 24/24 Playwright).
 
 ## À faire
-Moteur son (synthé moteur, clics) · enseigne du garage peu lisible depuis le spawn · minimap desktop (vide sous les icônes) · réduire le chunk principal (three importé par `useCarPosition`) · blocs de compétences en Blender (optionnel) · réponses de Tommy aux questions du copywriter · **commit sur confirmation de Tommy**.
+Réglage des volumes du son à l'oreille (`src/audio/manifest.ts`) · enseigne du garage peu lisible depuis le spawn · minimap desktop (vide sous les icônes) · réduire le chunk principal (three importé par `useCarPosition`) · blocs de compétences en Blender (optionnel) · réponses de Tommy aux questions du copywriter · **commit sur confirmation de Tommy**.
 
 ## Pièges
 - Push sur `master` = déploiement en production.

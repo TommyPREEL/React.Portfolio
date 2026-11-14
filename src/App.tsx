@@ -15,6 +15,8 @@ import { useGameStore } from "./store/gameStore";
 import { isHWAccelEnabled } from "./utils/detectHWAccel";
 import { parseRoute, routeToPath, type Route, type Section } from "./lib/route";
 import { pickLanguage, readSavedLanguage, saveLanguage } from "./lib/language";
+import { useSoundSystem } from "./audio/useSoundSystem";
+import { emitSound } from "./audio/bus";
 
 import {
   Minimap,
@@ -55,8 +57,6 @@ export default function App() {
     () => route.mode === "world" && route.section !== null && !isHWAccelEnabled(),
   );
   const [loadTimedOut, setLoadTimedOut] = useState(false);
-  // Sound engine comes later; the toggle exists now, muted by default (art direction).
-  const [soundOn, setSoundOn] = useState(false);
   const [showEscapeMenu, setShowEscapeMenu] = useState(false);
   const [escapeMenuTab, setEscapeMenuTab] = useState<"home" | "controls" | "settings" | "map">("home");
   const [loadProgress, setLoadProgress] = useState(0);
@@ -74,9 +74,17 @@ export default function App() {
   const isMobile = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
   const content = getContent(language);
 
+  // Off by default (art direction); the saved choice is remembered.
+  const { soundOn, toggleSound, volumes, setVolume } = useSoundSystem({
+    panelOpen: !!activeSection,
+    menuOpen: showEscapeMenu,
+    express: isExpress,
+  });
+
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
     saveLanguage(lang);
+    emitSound("ui-click");
   }, []);
 
   useEffect(() => {
@@ -105,7 +113,7 @@ export default function App() {
     setShowEscapeMenu(false);
     setIsExpress(true);
     // A real history entry, so the browser Back button returns to the world.
-    window.history.pushState(null, "", "/express");
+    window.history.pushState(null, "", "/classic");
   }, []);
 
   // Back/forward: re-apply whatever the URL now says.
@@ -134,6 +142,7 @@ export default function App() {
   const handleZoneClick = useCallback((zoneId: string) => {
     const zone = ZONES.find((z) => z.id === zoneId);
     if (!zone) return;
+    emitSound("ui-click");
     let best: Interactable | undefined;
     let bd = Infinity;
     for (const it of INTERACTABLES) {
@@ -239,7 +248,7 @@ export default function App() {
           setShowEscapeMenu(true);
         }}
       >
-        <SoundToggle enabled={soundOn} onToggle={() => setSoundOn((v) => !v)} language={language} />
+        <SoundToggle enabled={soundOn} onToggle={toggleSound} language={language} />
       </SettingsPanel>
 
       {showIntro && <IntroModal onClose={handleIntroClose} language={language} onExpress={openExpress} />}
@@ -257,6 +266,10 @@ export default function App() {
           initialTab={escapeMenuTab}
           quality={qualityMode}
           onQualityChange={setQualityMode}
+          soundEnabled={soundOn}
+          onSoundToggle={toggleSound}
+          volumes={volumes}
+          onVolumeChange={setVolume}
         />
       )}
 

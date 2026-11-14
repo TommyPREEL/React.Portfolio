@@ -149,6 +149,7 @@ export function ExpressView({ content, language, onLanguageChange, onBackTo3D }:
 
       <footer className={styles.footer}>
         <p>{ui.express.footer}</p>
+        <p className={styles.credits}>{ui.express.soundCredits}</p>
       </footer>
     </div>
   );

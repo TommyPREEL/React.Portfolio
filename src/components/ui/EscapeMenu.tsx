@@ -3,11 +3,16 @@
  * Opens when the user presses Escape; shows Home, Controls, Settings, Map tabs
  */
 
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, type CSSProperties } from "react";
 import type { EscapeMenuProps } from "../../types";
 import { getContent, allLanguages } from "../../i18n";
 import { ZONES, CONFIG } from "../../config";
 import { projectToMinimap } from "../../lib/map";
+
+// One projection for zones and the car dot, so the dot sits where the icons say it is.
+const MAP_SPAN_X = 36;
+const MAP_SPAN_Y = 40;
+import { VOLUME_CHANNELS, type SoundVolumes } from "../../lib/soundPref";
 import { CloseIcon, SoundOnIcon, SoundOffIcon, ZoneIcon } from "./icons";
 import { useDialog } from "./useDialog";
 import styles from "./EscapeMenu.module.css";
@@ -19,6 +24,9 @@ export interface EscapeMenuExtraProps {
   /** Sound toggle row appears only if onSoundToggle is provided. */
   soundEnabled?: boolean;
   onSoundToggle?: () => void;
+  /** Per-channel volume sliders appear only if onVolumeChange is provided. */
+  volumes?: SoundVolumes;
+  onVolumeChange?: (channel: keyof SoundVolumes, value: number) => void;
   /** Quality select appears only if onQualityChange is provided. */
   quality?: QualityMode;
   onQualityChange?: (quality: QualityMode) => void;
@@ -37,6 +45,8 @@ export function EscapeMenu({
   initialTab = "home",
   soundEnabled = false,
   onSoundToggle,
+  volumes,
+  onVolumeChange,
   quality = "auto",
   onQualityChange,
 }: EscapeMenuProps & EscapeMenuExtraProps) {
@@ -58,7 +68,7 @@ export function EscapeMenu({
 
   // Map math: shared helper with the Minimap so every zone and the car stay inside the frame
   const clampPct = (v: number) => Math.max(6, Math.min(94, v));
-  const car = projectToMinimap(carPosition.x, carPosition.z, CONFIG.world, 44, 44);
+  const car = projectToMinimap(carPosition.x, carPosition.z, CONFIG.world, MAP_SPAN_X, MAP_SPAN_Y);
 
   const zoneLabel = (id: string): string => navigation[id as keyof typeof navigation] ?? id;
 
@@ -192,6 +202,7 @@ export function EscapeMenu({
                     <button
                       type="button"
                       role="switch"
+                      data-sound-toggle=""
                       aria-checked={soundEnabled}
                       className={styles.switchButton + (soundEnabled ? " " + styles.segmentActive : "")}
                       onClick={onSoundToggle}
@@ -199,6 +210,40 @@ export function EscapeMenu({
                       {soundEnabled ? <SoundOnIcon size={22} /> : <SoundOffIcon size={22} />}
                       <span>{soundEnabled ? settings.soundOn : settings.soundOff}</span>
                     </button>
+                  </div>
+                )}
+
+                {onVolumeChange && volumes && (
+                  <div className={styles.settingsSection}>
+                    <p className={styles.settingsLabel}>{settings.volumeLabel}</p>
+                    <div className={styles.volumes}>
+                      {VOLUME_CHANNELS.map((channel) => {
+                        const id = baseId + "-vol-" + channel;
+                        const pct = Math.round(volumes[channel] * 100);
+                        return (
+                          <div key={channel} className={styles.volumeRow}>
+                            <label htmlFor={id} className={styles.volumeName}>
+                              {settings.volumeChannels[channel]}
+                            </label>
+                            <input
+                              id={id}
+                              type="range"
+                              min={0}
+                              max={100}
+                              step={5}
+                              value={pct}
+                              aria-valuetext={pct + " %"}
+                              className={styles.volumeSlider}
+                              style={{ "--fill": pct + "%" } as CSSProperties}
+                              onChange={(e) => onVolumeChange(channel, Number(e.target.value) / 100)}
+                            />
+                            <output htmlFor={id} className={styles.volumeValue}>
+                              {pct}%
+                            </output>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
 
@@ -229,7 +274,7 @@ export function EscapeMenu({
               <div className={styles.mapTab}>
                 <div className={styles.mapCanvas}>
                   {ZONES.map((zone) => {
-                    const pt = projectToMinimap(zone.position[0], zone.position[2], CONFIG.world, 38, 34);
+                    const pt = projectToMinimap(zone.position[0], zone.position[2], CONFIG.world, MAP_SPAN_X, MAP_SPAN_Y);
                     return (
                       <button
                         key={zone.id}

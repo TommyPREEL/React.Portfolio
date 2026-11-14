@@ -5,18 +5,18 @@ test.beforeEach(async ({ page }) => {
   await setLang(page, 'en')
 })
 
-test('intro Express button switches to the express page', async ({ page }) => {
+test('intro Classic button switches to the classic page', async ({ page }) => {
   const problems = watchProblems(page)
   await page.goto('/')
-  await page.getByRole('dialog').getByRole('button', { name: 'Express version' }).click()
-  await expect(page).toHaveURL(/\/express$/)
+  await page.getByRole('dialog').getByRole('button', { name: 'Classic version' }).click()
+  await expect(page).toHaveURL(/\/classic$/)
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   expect(problems).toEqual([])
 })
 
-test('/express renders four sections, no canvas, and passes basic a11y', async ({ page }) => {
+test('/classic renders four sections, no canvas, and passes basic a11y', async ({ page }) => {
   const problems = watchProblems(page)
-  await page.goto('/express')
+  await page.goto('/classic')
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   await expect(page.locator('canvas')).toHaveCount(0)
 

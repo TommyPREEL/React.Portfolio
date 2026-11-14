@@ -21,6 +21,7 @@ export function SoundToggle({ enabled = false, onToggle, language = "en" }: Soun
     <button
       type="button"
       className={styles.toggle}
+      data-sound-toggle=""
       onClick={onToggle}
       aria-pressed={enabled}
       aria-label={settings.soundLabel + ": " + label}

@@ -10,7 +10,9 @@ import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { CONFIG, SKILL_BLOCKS, SKILL_BLOCK_SIZE, WORLD_BOUNDS } from "../../config";
 import { getContent, type Language } from "../../i18n";
-import { stepBlocks, type BlockBody, type PusherState } from "../../lib/blocks";
+import { stepBlocks, type BlockBody, type BlockHit, type PusherState } from "../../lib/blocks";
+import { impactGain } from "../../lib/audioMix";
+import { emitSound } from "../../audio/bus";
 import { useGameStore } from "../../store/gameStore";
 import { FONT_URL } from "./Landmarks";
 import { blockMat, emitCyanDim, getBlobMaterial } from "./materials";
@@ -47,6 +49,7 @@ export function SkillBlocks({ language }: { language: Language }) {
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const state = useMemo<BlockBody[]>(() => SKILL_BLOCKS.map((b) => ({ x: b.x, z: b.z, vx: 0, vz: 0, yaw: 0, spin: 0 })), []);
   const pusher = useMemo<PusherState>(() => ({ x: 0, z: 0, vx: 0, vz: 0, r: CONFIG.car.radius }), []);
+  const hit = useMemo<BlockHit>(() => ({ impact: 0 }), []);
   const boxGeo = useMemo(() => new THREE.BoxGeometry(S, S, S), []);
   const frameGeo = useMemo(frameGeometry, []);
   const blobGeo = useMemo(() => new THREE.PlaneGeometry(S * 2.1, S * 2.1).rotateX(-Math.PI / 2), []);
@@ -92,8 +95,13 @@ export function SkillBlocks({ language }: { language: Language }) {
     pusher.vx = Math.sin(pose.rotation) * pose.speed;
     pusher.vz = Math.cos(pose.rotation) * pose.speed;
     // Skip the matrix rebuild + GPU upload while every block is at rest.
-    const moved = stepBlocks(state, pusher, PARAMS, dt);
+    const moved = stepBlocks(state, pusher, PARAMS, dt, hit);
     if (moved) writeMatrices();
+    // Rate-limited by the audio engine; a no-op while sound is off.
+    if (hit.impact > 0) {
+      const gain = impactGain(hit.impact);
+      if (gain > 0) emitSound("block-hit", gain);
+    }
     for (let i = 0; i < n; i++) {
       const g = labelRefs.current[i];
       if (!g) continue;

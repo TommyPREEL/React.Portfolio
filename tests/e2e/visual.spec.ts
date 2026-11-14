@@ -39,7 +39,7 @@ test('capture visual states', async ({ page }, info) => {
   await page.getByRole('tab', { name: 'Map' }).click()
   await shot('5c-escape-map')
 
-  await page.goto('/express')
+  await page.goto('/classic')
   await page.getByRole('heading', { level: 1 }).waitFor()
   await page.waitForTimeout(500)
   await shot('6-express')

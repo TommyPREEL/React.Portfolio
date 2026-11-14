@@ -13,7 +13,7 @@ Portfolio interactif en 3D (tommy-tech.fr) : le visiteur conduit une voiture et 
 ## 2. Carte du code (pour ne pas ré-explorer)
 | Fichier | Rôle |
 |---|---|
-| `src/App.tsx` | Shell : routes (`/`, `/express`, `/<section>`, `/projects/<id>`), langue, overlays, `GameCanvas` chargé en lazy + `CanvasErrorBoundary` (échec WebGL → express) |
+| `src/App.tsx` | Shell : routes (`/`, `/classic`, `/<section>`, `/projects/<id>`), langue, overlays, `GameCanvas` chargé en lazy + `CanvasErrorBoundary` (échec WebGL → version classique) |
 | `src/lib/` | Logique pure testée : physique voiture, collisions, triggers, carte, routes, langue, blocs, ruban/traînée, props |
 | `src/store/gameStore.ts` | zustand : `pose` mutable (lue via `getState()`, jamais abonnée), trigger actif, qualité, téléport |
 | `src/config/index.ts` · `world.ts` | `CONFIG` (monde 130×90, physique en u/s, palette), `ZONES`, `ASSETS` (chemins GLB) · île, circuit, `INTERACTABLES`, colliders, blocs |
@@ -23,7 +23,8 @@ Portfolio interactif en 3D (tommy-tech.fr) : le visiteur conduit une voiture et 
 | `art/blender/` · `public/models/` | Sources .blend + scripts de construction · GLB optimisés (meshopt, WebP) |
 | `tests/e2e/` · `scripts/` | Playwright (helper `startDriving`) · capture des écrans de projets |
 
-Dette connue : moteur son absent (toggle seulement), chunk principal 182 Ko gzip (three importé par `useCarPosition`), Docker `nginx:alpine` et tag `:latest` non figés.
+Son : `src/audio/` (AudioEngine Web Audio, bus, `useSoundSystem`), maths pures `src/lib/audioMix.ts`, fichiers `public/sounds/` (licences : `docs/ASSET_LICENSES.md`, ffmpeg installé via winget). Réglages à l'oreille dans `src/audio/manifest.ts`.
+Dette connue : chunk principal 182 Ko gzip (three importé par `useCarPosition`), Docker `nginx:alpine` et tag `:latest` non figés.
 
 ## 3. Organisation : orchestrateur + sous-agents
 **La session principale est l'orchestrateur.** (Dans Claude Code, un sous-agent ne peut pas lancer d'autres sous-agents : le chef doit donc être la session principale.) Il :

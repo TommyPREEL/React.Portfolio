@@ -8,8 +8,9 @@ describe("parseRoute", () => {
   it("maps the root to the world without a section", () => {
     expect(parseRoute("/", ids)).toEqual({ mode: "world", section: null, projectId: null });
   });
-  it("recognises express mode", () => {
-    expect(parseRoute("/express", ids)).toEqual({ mode: "express" });
+  it("recognises the classic page, not the old /express path", () => {
+    expect(parseRoute("/classic", ids)).toEqual({ mode: "express" });
+    expect(parseRoute("/express", ids)).toEqual({ mode: "world", section: null, projectId: null });
   });
   it("opens a section, case-insensitive, trailing slash tolerated", () => {
     expect(parseRoute("/Skills/", ids)).toEqual({ mode: "world", section: "skills", projectId: null });
@@ -22,7 +23,7 @@ describe("parseRoute", () => {
     expect(parseRoute("/whatever/else", ids)).toEqual({ mode: "world", section: null, projectId: null });
   });
   it("round-trips through routeToPath", () => {
-    for (const p of ["/", "/express", "/about", "/projects", "/projects/airbus", "/contact"]) {
+    for (const p of ["/", "/classic", "/about", "/projects", "/projects/airbus", "/contact"]) {
       expect(routeToPath(parseRoute(p, ids))).toBe(p);
     }
   });

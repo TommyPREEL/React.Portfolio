@@ -88,6 +88,8 @@ export interface Content {
       qualityHigh: string;
       qualityLow: string;
       qualityHint: string;
+      volumeLabel: string;
+      volumeChannels: { master: string; music: string; effects: string; ambience: string; ui: string };
       openSettings: string;
       expressLink: string;
       expressLinkShort: string;
@@ -100,6 +102,7 @@ export interface Content {
       languageLabel: string;
       backTo3D: string;
       footer: string;
+      soundCredits: string;
     };
     loading: {
       title: string;
@@ -327,7 +330,7 @@ const EN: Content = {
         { key: "Esc", action: "Menu, settings and map" },
       ],
       startButton: "Start driving",
-      expressButton: "Express version",
+      expressButton: "Classic version",
     },
     contentPanel: {
       keyHighlights: "Key highlights",
@@ -349,24 +352,27 @@ const EN: Content = {
       qualityHigh: "High",
       qualityLow: "Low",
       qualityHint: "Low turns off bloom and lowers resolution to run smoother on phones.",
+      volumeLabel: "Volume",
+      volumeChannels: { master: "Overall", music: "Music", effects: "Effects", ambience: "Ambience", ui: "Interface" },
       openSettings: "Open settings",
-      expressLink: "Express version",
-      expressLinkShort: "Express",
+      expressLink: "Classic version",
+      expressLinkShort: "Classic",
     },
     express: {
-      title: "Express version",
+      title: "Classic version",
       tagline: "The whole portfolio on one plain page, no 3D needed.",
       skipLink: "Skip to content",
       navLabel: "Sections",
       languageLabel: "Language",
       backTo3D: "Back to the 3D island",
       footer: "Built by Tommy PREEL",
+      soundCredits: "Sounds: Kenney, Juhani Junkala, MintoDog (CC0) · Jet take-off by dklon (CC-BY 3.0)",
     },
     loading: {
       title: "Loading the island",
       hint: "Preparing the 3D scene",
       ready: "Ready",
-      timedOut: "3D is taking long to load. The Express version has everything, right now.",
+      timedOut: "3D is taking long to load. The classic version has everything, right now.",
     },
     prompt: {
       open: "Open",
@@ -592,7 +598,7 @@ const FR: Content = {
         { key: "Échap", action: "Menu, paramètres et carte" },
       ],
       startButton: "Démarrer",
-      expressButton: "Version express",
+      expressButton: "Version classique",
     },
     contentPanel: {
       keyHighlights: "Points clés",
@@ -614,24 +620,27 @@ const FR: Content = {
       qualityHigh: "Élevée",
       qualityLow: "Basse",
       qualityHint: "Basse désactive l'effet de lueur et réduit la résolution pour fluidifier sur mobile.",
+      volumeLabel: "Volume",
+      volumeChannels: { master: "Général", music: "Musique", effects: "Effets", ambience: "Ambiances", ui: "Interface" },
       openSettings: "Ouvrir les paramètres",
-      expressLink: "Version express",
-      expressLinkShort: "Express",
+      expressLink: "Version classique",
+      expressLinkShort: "Classique",
     },
     express: {
-      title: "Version express",
+      title: "Version classique",
       tagline: "Tout le portfolio sur une page simple, sans 3D.",
       skipLink: "Aller au contenu",
       navLabel: "Sections",
       languageLabel: "Langue",
       backTo3D: "Retour à l'île 3D",
       footer: "Réalisé par Tommy PREEL",
+      soundCredits: "Sons : Kenney, Juhani Junkala, MintoDog (CC0) · Décollage de jet par dklon (CC-BY 3.0)",
     },
     loading: {
       title: "Chargement de l'île",
       hint: "Préparation de la scène 3D",
       ready: "Prêt",
-      timedOut: "La 3D met du temps à charger. La version express contient tout, tout de suite.",
+      timedOut: "La 3D met du temps à charger. La version classique contient tout, tout de suite.",
     },
     prompt: {
       open: "Ouvrir",

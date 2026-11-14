@@ -129,6 +129,11 @@ button {
   outline-offset: 2px;
 }
 
+/* Dialog containers receive focus programmatically on open (useDialog): no ring on them. */
+[role="dialog"][tabindex="-1"]:focus {
+  outline: none;
+}
+
 /* Cut-corner panel with a 1px line border (clip-path hides real borders on diagonals).
    Do not put on focusable elements: the focus ring would be clipped. */
 .cut {

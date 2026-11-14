@@ -29,9 +29,18 @@ export interface BlockParams {
 /** Velocities below this are snapped to rest so settled blocks stop reporting movement. */
 const REST_EPS = 1e-3;
 
-/** Advances the blocks; returns true when at least one block moved (callers skip GPU uploads otherwise). */
-export function stepBlocks(blocks: BlockBody[], car: PusherState, p: BlockParams, dt: number): boolean {
+/** Strongest car impact of a step (closing speed along the contact normal, u/s; 0 when none). */
+export interface BlockHit {
+  impact: number;
+}
+
+/**
+ * Advances the blocks; returns true when at least one block moved (callers skip GPU uploads otherwise).
+ * When `hit` is given, it receives the strongest car impact of this step (used for sound).
+ */
+export function stepBlocks(blocks: BlockBody[], car: PusherState, p: BlockParams, dt: number, hit?: BlockHit): boolean {
   let moved = false;
+  let impact = 0;
   const minCar = car.r + p.radius;
   const decay = Math.exp(-p.damping * dt);
   for (let i = 0; i < blocks.length; i++) {
@@ -48,6 +57,7 @@ export function stepBlocks(blocks: BlockBody[], car: PusherState, p: BlockParams
       moved = true;
       const rel = (car.vx - b.vx) * nx + (car.vz - b.vz) * nz; // closing speed along the normal
       if (rel > 0) {
+        if (rel > impact) impact = rel;
         b.vx += nx * rel * 1.2;
         b.vz += nz * rel * 1.2;
         b.spin += (nx * car.vz - nz * car.vx) * 0.25;
@@ -102,5 +112,6 @@ export function stepBlocks(blocks: BlockBody[], car: PusherState, p: BlockParams
       b.vz *= -0.3;
     }
   }
+  if (hit) hit.impact = impact;
   return moved;
 }

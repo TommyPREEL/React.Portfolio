@@ -18,7 +18,9 @@ export function useDialog(ref: RefObject<HTMLElement | null>, onClose: () => voi
     if (!root) return;
     const previous = document.activeElement as HTMLElement | null;
     const items = () => Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE));
-    (items()[0] ?? root).focus({ preventScroll: true });
+    // Focus the dialog itself, not its first control: a keyboard-opened dialog (Escape, M)
+    // would otherwise show a focus ring on that control right away. Tab still reaches it first.
+    root.focus({ preventScroll: true });
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -35,9 +37,9 @@ export function useDialog(ref: RefObject<HTMLElement | null>, onClose: () => voi
       const first = list[0];
       const last = list[list.length - 1];
       const active = document.activeElement;
-      if (!root.contains(active)) {
+      if (!root.contains(active) || active === root) {
         e.preventDefault();
-        first.focus();
+        (e.shiftKey ? last : first).focus();
       } else if (e.shiftKey && active === first) {
         e.preventDefault();
         last.focus();

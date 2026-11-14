@@ -325,6 +325,11 @@
   font-size: var(--fs-sm);
 }
 
+.credits {
+  margin-top: var(--space-2);
+  font-size: var(--fs-xs, 0.8125rem);
+}
+
 @media (max-width: 600px) {
   .barInner {
     padding: var(--space-2) var(--space-3);
