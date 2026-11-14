@@ -1,0 +1,217 @@
+.panel {
+  position: relative;
+  width: min(92vw, 760px);
+  max-height: min(86dvh, 860px);
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  animation: boot var(--dur-slow) steps(5, end);
+}
+
+/* Thin cyan accent line marks the focused panel */
+.panel::after {
+  content: "";
+  position: absolute;
+  left: var(--space-4);
+  top: 1px;
+  width: 64px;
+  height: 2px;
+  background: var(--cyan);
+}
+
+@keyframes boot {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-6) var(--space-6) var(--space-5);
+  scrollbar-color: var(--line) transparent;
+  touch-action: pan-y;
+}
+
+.close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  width: var(--hit);
+  height: var(--hit);
+  display: grid;
+  place-items: center;
+  background: var(--matter-800);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.close:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-xl);
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  padding-right: calc(var(--hit) + var(--space-3));
+  margin-bottom: var(--space-3);
+}
+
+.lead {
+  color: var(--text-dim);
+  max-width: 68ch;
+  margin-bottom: var(--space-5);
+}
+
+.subtitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--track);
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin: var(--space-5) 0 var(--space-3);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.list li {
+  position: relative;
+  padding-left: var(--space-4);
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 8px;
+  height: 2px;
+  background: var(--orange);
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--hit);
+  margin-top: var(--space-5);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius);
+  background: var(--orange);
+  color: var(--on-accent);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--track);
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.primary:hover {
+  transform: translateY(-1px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: var(--space-4);
+}
+
+.group {
+  padding: var(--space-4);
+  border: var(--border) solid var(--line);
+  background: var(--matter-700);
+  border-radius: var(--radius);
+}
+
+.group h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  margin-bottom: var(--space-3);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: 2px var(--space-2);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--matter-900);
+  font-size: var(--fs-sm);
+}
+
+.contacts {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--hit);
+  padding: var(--space-2) var(--space-4);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--matter-700);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.contact:hover {
+  border-color: var(--cyan);
+  transform: translateX(2px);
+}
+
+.contactType {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--track);
+  color: var(--cyan);
+  text-transform: uppercase;
+  font-size: var(--fs-sm);
+}
+
+.contactValue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .scroll {
+    padding: var(--space-5) var(--space-4) var(--space-4);
+  }
+  .title {
+    font-size: var(--fs-lg);
+  }
+  .contact {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .contactValue {
+    text-align: left;
+  }
+}

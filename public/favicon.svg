@@ -1,14 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#0f172a"/>
-  <rect width="64" height="64" rx="12" fill="none" stroke="#3b82f6" stroke-width="3"/>
-  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
-    font-family="system-ui, sans-serif" font-weight="800" font-size="26"
-    fill="#f0f9ff"
-    filter="url(#glow)">TP</text>
-  <defs>
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-  </defs>
+  <path d="M0 0h54l10 10v54H10L0 54z" fill="#07090C"/>
+  <path d="M2 2h51.2l8.8 8.8V62H10.8L2 53.2z" fill="none" stroke="#2E3843" stroke-width="2"/>
+  <path d="M16 20h32M32 20v26" fill="none" stroke="#4DE8FF" stroke-width="5" stroke-linecap="square"/>
+  <path d="M16 52h14" fill="none" stroke="#FF8A1F" stroke-width="4" stroke-linecap="square"/>
 </svg>

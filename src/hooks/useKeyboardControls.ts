@@ -56,9 +56,14 @@ export function useEnterKey(
 ): void {
   useEffect(() => {
     const handleEnter = (e: KeyboardEvent) => {
-      if (e.key === "Enter" && activeZone && !activeSection) {
-        onEnter(activeZone);
-      }
+      if (e.key !== "Enter" || e.repeat || !activeZone || activeSection) return;
+      // Enter on a focused control belongs to that control (link, button, field).
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("a, button, input, select, textarea, [role='button'], [role='tab']")) return;
+      // Without this, the dialog focuses its close button during this keydown and the
+      // browser's default Enter action then "clicks" it, closing the panel instantly.
+      e.preventDefault();
+      onEnter(activeZone);
     };
 
     window.addEventListener("keydown", handleEnter);

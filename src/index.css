@@ -1,12 +1,194 @@
+/* =====================================================
+   DESIGN TOKENS - neon diorama / dashboard terminal
+   Single source of truth. Names match the three.js palette constants.
+   ===================================================== */
+
+:root {
+  /* Palette (only two light colors: cyan = interactive, orange = active) */
+  --night: #07090c;
+  --night-fade: #0b1118;
+  --matter-900: #0e1217;
+  --matter-800: #141920;
+  --matter-700: #1b2129;
+  --matter-600: #222a33;
+  --line: #2e3843;
+  --cyan: #4de8ff;
+  --cyan-dim: #1a6c7a;
+  --orange: #ff8a1f;
+  --text: #e6edf2;
+  --text-dim: #8a97a3;
+
+  /* Derived surfaces (no new hue) */
+  --panel: color-mix(in srgb, var(--matter-800) 95%, transparent);
+  --scrim: color-mix(in srgb, var(--night) 84%, transparent);
+  --on-accent: var(--night);
+  --focus: var(--cyan);
+
+  /* Fonts (2 families max) */
+  --font-display: "Chakra Petch", "Segoe UI", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+
+  /* Type scale */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.75rem;
+  --fs-2xl: 2.5rem;
+  --track: 0.06em;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+
+  /* Shape */
+  --radius: 2px;
+  --cut: 10px;
+  --cut-sm: 6px;
+  --hit: 44px;
+  --border: 1px;
+
+  /* Safe-area insets */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
+  /* Mobile bottom HUD stack, bottom to top: controls row, minimap, interaction prompt */
+  --hud-gap: var(--space-4);
+  --controls-h: 110px; /* joystick diameter */
+  --controls-pad: var(--space-5);
+  --minimap-h: 84px;
+  --stack-controls: calc(var(--controls-h) + var(--controls-pad) + var(--safe-bottom));
+  --stack-minimap: calc(var(--stack-controls) + var(--space-3));
+  --stack-prompt: calc(var(--stack-minimap) + var(--minimap-h) + var(--hud-gap));
+
+  /* Motion (transform / opacity only) */
+  --dur-fast: 150ms;
+  --dur: 200ms;
+  --dur-slow: 250ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Layers */
+  --z-hud: 100;
+  --z-modal: 9999;
+  --z-loading: 10000;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
   overflow: hidden;
 }
 
 #root {
   width: 100%;
   height: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Visible focus everywhere: 2px cyan, offset 2px */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Dialog containers receive focus programmatically on open (useDialog): no ring on them. */
+[role="dialog"][tabindex="-1"]:focus {
+  outline: none;
+}
+
+/* Cut-corner panel with a 1px line border (clip-path hides real borders on diagonals).
+   Do not put on focusable elements: the focus ring would be clipped. */
+.cut {
+  /* element must be positioned (relative/fixed) by its own class */
+  isolation: isolate;
+  background: var(--line);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+
+.cut::before {
+  content: "";
+  position: absolute;
+  inset: var(--border);
+  z-index: -1;
+  background: var(--panel);
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut) + 0.4px) 0,
+    100% calc(var(--cut) - 0.4px),
+    100% 100%,
+    calc(var(--cut) - 0.4px) 100%,
+    0 calc(100% - var(--cut) + 0.4px)
+  );
+}
+
+.cut-sm {
+  --cut: var(--cut-sm);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

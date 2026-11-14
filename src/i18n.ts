@@ -7,6 +7,10 @@
 export type Language = "en" | "fr";
 
 export interface Content {
+  profile: {
+    name: string;
+    headline: string;
+  };
   about: {
     title: string;
     description: string;
@@ -18,7 +22,11 @@ export interface Content {
     title: string;
     description: string;
     items: Array<{
+      /** Stable id shared by the 3D world and the UI (arcade cabinet, screenshot file). */
+      id: string;
       name: string;
+      /** Short role line shown on the project card. */
+      role: string;
       description: string;
       technologies: string[];
       link: string;
@@ -55,19 +63,67 @@ export interface Content {
       title: string;
       description: string;
       controlsTitle: string;
-      controls: string[];
+      controls: Array<{ key: string; action: string }>;
       startButton: string;
+      expressButton: string;
     };
     contentPanel: {
       keyHighlights: string;
       learnMore: string;
+      roleLabel: string;
+      stackLabel: string;
+      /** "{name}" is replaced by the project name. */
+      screenshotAlt: string;
+      cvAction: string;
     };
     settings: {
       title: string;
       languageLabel: string;
       close: string;
+      soundLabel: string;
+      soundOn: string;
+      soundOff: string;
+      qualityLabel: string;
+      qualityAuto: string;
+      qualityHigh: string;
+      qualityLow: string;
+      qualityHint: string;
+      volumeLabel: string;
+      volumeChannels: { master: string; music: string; effects: string; ambience: string; ui: string };
+      openSettings: string;
+      expressLink: string;
+      expressLinkShort: string;
+    };
+    express: {
+      title: string;
+      tagline: string;
+      skipLink: string;
+      navLabel: string;
+      languageLabel: string;
+      backTo3D: string;
+      footer: string;
+      soundCredits: string;
+    };
+    loading: {
+      title: string;
+      hint: string;
+      ready: string;
+      timedOut: string;
+    };
+    prompt: {
+      open: string;
+      tapToOpen: string;
+      enterKey: string;
+    };
+    mobile: {
+      joystick: string;
+      boost: string;
+    };
+    hud: {
+      map: string;
     };
     escapeMenu: {
+      menuTitle: string;
       tabHome: string;
       tabControls: string;
       tabSettings: string;
@@ -96,10 +152,14 @@ export interface Content {
 // =====================================================
 
 const EN: Content = {
+  profile: {
+    name: "Tommy PREEL",
+    headline: "FullStack developer, Toulouse",
+  },
   about: {
     title: "About Me",
     description:
-      "Hey! I'm Tommy, a FullStack Developer based in Toulouse, France. I've been working with TypeScript for years, building Angular and React apps on the frontend and using ExpressJS and AWS on the backend. I care a lot about security, performance, and making things that actually feel good to use. Currently working at Airbus through Alten SO, where I've spent 4+ years on real-world industrial applications.",
+      "Hey, I'm Tommy, a full-stack developer in Toulouse, France. I write TypeScript every day: Angular and React on the front, ExpressJS and AWS on the back. I care about security and performance, and I like things that feel good to use. I work at Airbus through Alten SO, where I've spent 4+ years on industrial applications.",
     highlights: [
       "4+ years at Airbus (with 3 years as work-study)",
       "TypeScript / Angular / React",
@@ -111,75 +171,95 @@ const EN: Content = {
   },
   projects: {
     title: "Projects",
-    description: "A mix of professional and personal projects that reflect what I like to build.",
+    description: "Work and personal projects. The arcade cabinets are my web games.",
     items: [
       {
+        id: "airbus",
         name: "Airbus Industrial Apps",
+        role: "Developer, work-study then employee",
         description:
-          "Two applications built during my time at Airbus: a visualizer for aircraft parts displayed as a data tree (back office), and a tool for detecting hazardous substances in aircraft parts. Angular-based, with strong focus on testing, security, and code quality.",
+          "Two Angular apps I built at Airbus: a back-office viewer that shows aircraft parts as a data tree, and a tool that detects hazardous substances in aircraft parts. I put a lot of care into tests, security and code quality.",
         technologies: ["Angular", "TypeScript", "AWS", "CI/CD"],
         link: "",
       },
       {
+        id: "manga-sensei",
         name: "MangaSensei",
+        role: "Solo project, full stack",
         description:
-          "Collect cards featuring manga characters, trade with other players, and battle them. Social features and rankings make every collection competitive.",
+          "Collect cards of manga characters, trade them with other players and battle with them. Rankings turn every collection into a small competition.",
         technologies: ["React", "PostgreSQL", "Vitest", "Playwright"],
         link: "https://manga-sensei.tommy-tech.fr",
       },
       {
+        id: "minigames",
         name: "MiniGames",
+        role: "Solo project, full stack",
         description:
-          "7 party games in one place — play Undercover, Fake Artist, Wavelength and more with friends, whether you're in the same room or miles apart.",
+          "7 party games in one app, including Undercover, Fake Artist and Wavelength. Play in the same room or from different cities.",
         technologies: ["HTML", "JavaScript", "Node.js", "WebSocket", "PWA"],
         link: "https://minigames.tommy-tech.fr",
       },
       {
+        id: "pvpedia",
         name: "PvPedia",
+        role: "Solo project, full stack",
         description:
-          "Race against other players to uncover a hidden Wikipedia article. Guess words to reveal the text and be the first to name the title.",
+          "A Wikipedia article is hidden and everyone races to name it. Guess words to reveal the text, and find the title before the others.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://pvpedia.tommy-tech.fr",
       },
       {
+        id: "blitzquiz",
         name: "BlitzQuiz",
+        role: "Solo project, full stack",
         description:
-          "Host and play live quizzes with friends. Build your quiz, share a room code, and let everyone compete on their own device in real time.",
+          "Write your own quiz, share a room code, and everyone answers from their own phone or laptop.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://blitzquiz.tommy-tech.fr",
       },
       {
+        id: "blindtest",
         name: "Blindtest",
+        role: "Solo project, full stack",
         description:
-          "Multiplayer music blindtest where players race to identify songs as fast as possible. Host a room, share the code, and see who has the best music knowledge.",
+          "A music blindtest where players race to name each song. Open a room, share the code, and find out who really knows their music.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://blindtest.tommy-tech.fr",
       },
       {
+        id: "scrum-poker",
         name: "Scrum Poker",
+        role: "Solo project, full stack",
         description:
-          "Planning poker tool for agile teams. Create a room, invite your team, and vote on story points in real time — perfect for remote sprint planning sessions.",
+          "Planning poker for agile teams. Open a room, invite the team and vote on story points together. Handy for remote sprint planning.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://scrum-poker.tommy-tech.fr",
       },
       {
+        id: "reflex-game",
         name: "Reflex Game",
+        role: "Solo project, full stack",
         description:
-          "Competitive reaction-time game for groups. A dot appears on screen and players race to click it first — find out who has the fastest reflexes in the room.",
+          "A dot appears on screen and everyone rushes to click it first. Simple, and a good way to find out who has the fastest reflexes.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://reflex-game.tommy-tech.fr",
       },
       {
+        id: "self-hosted-server",
         name: "Self-Hosted Server",
+        role: "Personal infrastructure",
         description:
-          "Recycled an old PC into a self-hosted Ubuntu server to host personal projects and game servers. Set up SSH, Docker, networking, and security hardening from scratch.",
+          "I turned an old PC into an Ubuntu server that hosts my personal projects and game servers. SSH, Docker, networking and security hardening: I set it all up myself.",
         technologies: ["Linux", "Docker", "Networking", "CI/CD"],
         link: "",
       },
       {
+        id: "portfolio",
         name: "3D Portfolio",
+        role: "Design, 3D and development",
         description:
-          "This website! An interactive 3D portfolio built with React, Three.js, and TypeScript. Drive a car around and explore different sections of my profile.",
+          "This website, built with React, Three.js and TypeScript. You drive a small car around the island to visit each section.",
         technologies: ["React", "Three.js", "TypeScript", "Vite"],
         link: "#",
       },
@@ -187,7 +267,7 @@ const EN: Content = {
   },
   skills: {
     title: "Skills & Expertise",
-    description: "The tools and technologies I work with on a daily basis.",
+    description: "What I use day to day. Knock a block over if you like.",
     categories: [
       {
         name: "Frontend",
@@ -209,7 +289,7 @@ const EN: Content = {
   },
   contact: {
     title: "Contact Me",
-    description: "Feel free to reach out, I'm always open to new opportunities and collaborations.",
+    description: "I'm open to new opportunities and collaborations. Send me a message.",
     methods: [
       {
         type: "Email",
@@ -239,35 +319,82 @@ const EN: Content = {
   },
   ui: {
     intro: {
-      title: "Welcome! 🚀",
+      title: "Drive through my work",
       description:
-        "Welcome to my interactive 3D portfolio! Explore my Full Stack developer universe through an immersive experience.",
-      controlsTitle: "🎮 How to navigate?",
+        "Drive around my night island. The garage is about me, the arcade and hangar hold my projects, the light blocks are my skills, and the radar is how to reach me.",
+      controlsTitle: "Controls",
       controls: [
-        "<strong>ZQSD / WASD</strong>: Drive the car",
-        "<strong>Shift</strong>: Activate boost 🔥",
-        "<strong>Enter</strong>: Open a zone (About, Projects, Skills, Contact)",
-        "Drive to the illuminated zones to discover my journey!",
+        { key: "WASD / ZQSD", action: "Drive the car" },
+        { key: "Shift", action: "Boost" },
+        { key: "Enter", action: "Open the zone you are standing in" },
+        { key: "Esc", action: "Menu, settings and map" },
       ],
-      startButton: "Let's go! 🎮",
+      startButton: "Start driving",
+      expressButton: "Classic version",
     },
     contentPanel: {
-      keyHighlights: "Key Highlights:",
-      learnMore: "Learn More →",
+      keyHighlights: "Key highlights",
+      learnMore: "Visit project",
+      roleLabel: "Role",
+      stackLabel: "Stack",
+      screenshotAlt: "Screenshot of {name}",
+      cvAction: "Open CV",
     },
     settings: {
       title: "Settings",
       languageLabel: "Language",
       close: "Close",
+      soundLabel: "Sound",
+      soundOn: "Sound on",
+      soundOff: "Sound off",
+      qualityLabel: "Graphics quality",
+      qualityAuto: "Auto",
+      qualityHigh: "High",
+      qualityLow: "Low",
+      qualityHint: "Low turns off bloom and lowers resolution to run smoother on phones.",
+      volumeLabel: "Volume",
+      volumeChannels: { master: "Overall", music: "Music", effects: "Effects", ambience: "Ambience", ui: "Interface" },
+      openSettings: "Open settings",
+      expressLink: "Classic version",
+      expressLinkShort: "Classic",
+    },
+    express: {
+      title: "Classic version",
+      tagline: "The whole portfolio on one plain page, no 3D needed.",
+      skipLink: "Skip to content",
+      navLabel: "Sections",
+      languageLabel: "Language",
+      backTo3D: "Back to the 3D island",
+      footer: "Built by Tommy PREEL",
+      soundCredits: "Sounds: Kenney, Juhani Junkala, MintoDog (CC0) · Jet take-off by dklon (CC-BY 3.0)",
+    },
+    loading: {
+      title: "Loading the island",
+      hint: "Preparing the 3D scene",
+      ready: "Ready",
+      timedOut: "3D is taking long to load. The classic version has everything, right now.",
+    },
+    prompt: {
+      open: "Open",
+      tapToOpen: "Tap to open",
+      enterKey: "Enter",
+    },
+    mobile: {
+      joystick: "Driving joystick",
+      boost: "Boost",
+    },
+    hud: {
+      map: "Map",
     },
     escapeMenu: {
+      menuTitle: "Menu",
       tabHome: "Home",
       tabControls: "Controls",
       tabSettings: "Settings",
       tabMap: "Map",
       controlOr: "or",
       mapYourPosition: "Your position",
-      mapTeleportHint: "Click a zone to teleport",
+      mapTeleportHint: "Select a zone to teleport",
       controls: [
         { keys: "WASD / ZQSD", action: "Move around" },
         { keys: "SHIFT", action: "Boost" },
@@ -277,11 +404,11 @@ const EN: Content = {
       ],
     },
     hwAccelWarning: {
-      title: "Enable Hardware Acceleration",
+      title: "Enable hardware acceleration",
       description:
-        "This site uses WebGL 3D rendering. Without hardware acceleration enabled in your browser, you may experience lag or poor performance.",
-      chrome: "Chrome / Edge: Settings → System → Use hardware acceleration when available",
-      firefox: "Firefox: about:config → layers.acceleration.force-enabled → true",
+        "This site renders in 3D with WebGL. If hardware acceleration is off in your browser, it may lag.",
+      chrome: "Chrome / Edge: Settings > System > Use hardware acceleration when available",
+      firefox: "Firefox: about:config > layers.acceleration.force-enabled > true",
       edge: "Then restart your browser and reload the page.",
       dismissButton: "Got it, continue",
     },
@@ -293,10 +420,14 @@ const EN: Content = {
 // =====================================================
 
 const FR: Content = {
+  profile: {
+    name: "Tommy PREEL",
+    headline: "Développeur FullStack, Toulouse",
+  },
   about: {
     title: "À Propos",
     description:
-      "Salut ! Moi c'est Tommy, développeur FullStack basé à Toulouse. Je travaille avec TypeScript au quotidien, côté front en Angular et React, et côté back avec ExpressJS et AWS. J'accorde beaucoup d'importance à la sécurité, la performance, et surtout à l'expérience utilisateur. Actuellement en poste chez Airbus via Alten SO, où j'ai passé plus de 4 ans sur des applications industrielles concrètes.",
+      "Salut, moi c'est Tommy, développeur full stack à Toulouse. Je fais du TypeScript tous les jours : Angular et React côté front, ExpressJS et AWS côté back. La sécurité et la performance comptent pour moi, et j'aime que ce que je fais soit agréable à utiliser. Je travaille chez Airbus via Alten SO, où je travaille depuis plus de 4 ans sur des applications industrielles.",
     highlights: [
       "4+ ans chez Airbus (dont 3 ans en alternance)",
       "TypeScript / Angular / React",
@@ -308,75 +439,95 @@ const FR: Content = {
   },
   projects: {
     title: "Projets",
-    description: "Un mélange de projets professionnels et personnels qui reflètent ce que j'aime construire.",
+    description: "Des projets pro et perso. Les bornes d'arcade, ce sont mes jeux web.",
     items: [
       {
+        id: "airbus",
         name: "Applications Industrielles Airbus",
+        role: "Développeur, alternance puis salarié",
         description:
-          "Deux applications développées chez Airbus : un visualiseur de pièces d'avion sous forme d'arbre de données (back office), et un outil de détection de substances dangereuses. Basées sur Angular, avec un fort accent sur les tests, la sécurité et la qualité du code.",
+          "Deux applications Angular développées chez Airbus : un outil de back office qui affiche les pièces d'avion sous forme d'arbre de données, et un outil qui détecte les substances dangereuses dans ces pièces. Je soigne particulièrement les tests, la sécurité et la qualité du code.",
         technologies: ["Angular", "TypeScript", "AWS", "CI/CD"],
         link: "",
       },
       {
+        id: "manga-sensei",
         name: "MangaSensei",
+        role: "Projet perso, full stack",
         description:
-          "Collectionnez des cartes de personnages de manga, échangez-les avec d'autres joueurs et affrontez-les. Les interactions sociales et le classement ajoutent une dimension compétitive à chaque collection.",
+          "Collectionnez des cartes de personnages de manga, échangez-les avec d'autres joueurs et battez-vous avec. Le classement transforme chaque collection en petite compétition.",
         technologies: ["React", "PostgreSQL", "Vitest", "Playwright"],
         link: "https://manga-sensei.tommy-tech.fr",
       },
       {
+        id: "minigames",
         name: "MiniGames",
+        role: "Projet perso, full stack",
         description:
-          "7 jeux de soirée en un seul endroit — jouez à Undercover, Fake Artist, Wavelength et plus encore avec vos amis, dans la même pièce ou à distance.",
+          "7 jeux de soirée dans une seule appli, dont Undercover, Fake Artist et Wavelength. On y joue dans la même pièce ou chacun chez soi.",
         technologies: ["HTML", "JavaScript", "Node.js", "WebSocket", "PWA"],
         link: "https://minigames.tommy-tech.fr",
       },
       {
+        id: "pvpedia",
         name: "PvPedia",
+        role: "Projet perso, full stack",
         description:
-          "Course contre d'autres joueurs pour découvrir un article Wikipédia caché. Devinez des mots pour révéler le texte et soyez le premier à trouver le titre.",
+          "Un article Wikipédia est caché et tout le monde court après son titre. Devinez des mots pour révéler le texte, et trouvez le titre avant les autres.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://pvpedia.tommy-tech.fr",
       },
       {
+        id: "blitzquiz",
         name: "BlitzQuiz",
+        role: "Projet perso, full stack",
         description:
-          "Créez et jouez des quiz en direct avec vos amis. Construisez votre quiz, partagez un code de salle, et laissez tout le monde s'affronter sur son propre appareil en temps réel.",
+          "Écrivez votre propre quiz, partagez un code de salle, et chacun répond depuis son téléphone ou son ordi.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://blitzquiz.tommy-tech.fr",
       },
       {
+        id: "blindtest",
         name: "Blindtest",
+        role: "Projet perso, full stack",
         description:
-          "Blindtest musical multijoueur où les joueurs s'affrontent pour identifier des chansons le plus vite possible. Créez une salle, partagez le code, et découvrez qui a la meilleure culture musicale.",
+          "Un blindtest où il faut retrouver chaque morceau avant les autres. Ouvrez une salle, partagez le code et voyez qui s'y connaît vraiment en musique.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://blindtest.tommy-tech.fr",
       },
       {
+        id: "scrum-poker",
         name: "Scrum Poker",
+        role: "Projet perso, full stack",
         description:
-          "Outil de planning poker pour les équipes agiles. Créez une salle, invitez votre équipe, et votez sur les story points en temps réel — idéal pour les sessions de sprint planning à distance.",
+          "Du planning poker pour les équipes agiles. Ouvrez une salle, invitez l'équipe et votez ensemble sur les story points. Pratique pour un sprint planning à distance.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://scrum-poker.tommy-tech.fr",
       },
       {
+        id: "reflex-game",
         name: "Reflex Game",
+        role: "Projet perso, full stack",
         description:
-          "Jeu de temps de réaction compétitif en groupe. Un point apparaît à l'écran et les joueurs s'affrontent pour cliquer dessus le premier — découvrez qui a les réflexes les plus rapides dans la salle.",
+          "Un point apparaît à l'écran et tout le monde se rue dessus pour cliquer en premier. Simple, et très bien pour savoir qui a les meilleurs réflexes.",
         technologies: ["React", "TypeScript", "Socket.IO", "Node.js"],
         link: "https://reflex-game.tommy-tech.fr",
       },
       {
+        id: "self-hosted-server",
         name: "Serveur Auto-Hébergé",
+        role: "Infrastructure personnelle",
         description:
-          "J'ai recyclé un vieux PC en serveur Ubuntu pour héberger mes projets perso et des serveurs de jeux. Configuration SSH, Docker, réseau et sécurisation from scratch.",
+          "J'ai transformé un vieux PC en serveur Ubuntu qui héberge mes projets perso et des serveurs de jeux. SSH, Docker, réseau, sécurisation : j'ai tout monté moi-même.",
         technologies: ["Linux", "Docker", "Réseau", "CI/CD"],
         link: "",
       },
       {
+        id: "portfolio",
         name: "Portfolio 3D",
+        role: "Design, 3D et développement",
         description:
-          "Ce site ! Un portfolio interactif en 3D construit avec React, Three.js et TypeScript. Conduisez une voiture et explorez les différentes sections de mon profil.",
+          "Ce site, fait avec React, Three.js et TypeScript. On conduit une petite voiture sur l'île pour visiter chaque section.",
         technologies: ["React", "Three.js", "TypeScript", "Vite"],
         link: "#",
       },
@@ -384,7 +535,7 @@ const FR: Content = {
   },
   skills: {
     title: "Compétences & Expertise",
-    description: "Les outils et technologies que j'utilise au quotidien.",
+    description: "Ce que j'utilise au quotidien. Renversez un bloc si ça vous tente.",
     categories: [
       {
         name: "Frontend",
@@ -406,7 +557,7 @@ const FR: Content = {
   },
   contact: {
     title: "Me Contacter",
-    description: "N'hésitez pas à me contacter, je suis toujours ouvert aux nouvelles opportunités et collaborations.",
+    description: "Je suis ouvert aux nouvelles opportunités et collaborations. Écrivez-moi.",
     methods: [
       {
         type: "Email",
@@ -436,35 +587,82 @@ const FR: Content = {
   },
   ui: {
     intro: {
-      title: "Bienvenue ! 🚀",
+      title: "Visitez mon île en voiture",
       description:
-        "Bienvenue sur mon portfolio interactif en 3D ! Explorez mon univers de développeur Full Stack à travers une expérience immersive.",
-      controlsTitle: "🎮 Comment naviguer ?",
+        "Roulez sur mon île de nuit. Le garage parle de moi, la salle d'arcade et le hangar abritent mes projets, les blocs lumineux sont mes compétences, et le radar vous donne mes contacts.",
+      controlsTitle: "Commandes",
       controls: [
-        "<strong>ZQSD / WASD</strong> : Conduire la voiture",
-        "<strong>Shift</strong> : Activer le boost 🔥",
-        "<strong>Enter</strong> : Ouvrir une zone (About, Projects, Skills, Contact)",
-        "Conduisez jusqu'aux zones illuminées pour découvrir mon parcours !",
+        { key: "ZQSD / WASD", action: "Conduire la voiture" },
+        { key: "Maj", action: "Boost" },
+        { key: "Entrée", action: "Ouvrir la zone où vous êtes" },
+        { key: "Échap", action: "Menu, paramètres et carte" },
       ],
-      startButton: "C'est parti ! 🎮",
+      startButton: "Démarrer",
+      expressButton: "Version classique",
     },
     contentPanel: {
-      keyHighlights: "Points Clés :",
-      learnMore: "En savoir plus →",
+      keyHighlights: "Points clés",
+      learnMore: "Voir le projet",
+      roleLabel: "Rôle",
+      stackLabel: "Stack",
+      screenshotAlt: "Capture d'écran de {name}",
+      cvAction: "Ouvrir le CV",
     },
     settings: {
       title: "Paramètres",
       languageLabel: "Langue",
       close: "Fermer",
+      soundLabel: "Son",
+      soundOn: "Son activé",
+      soundOff: "Son coupé",
+      qualityLabel: "Qualité graphique",
+      qualityAuto: "Auto",
+      qualityHigh: "Élevée",
+      qualityLow: "Basse",
+      qualityHint: "Basse désactive l'effet de lueur et réduit la résolution pour fluidifier sur mobile.",
+      volumeLabel: "Volume",
+      volumeChannels: { master: "Général", music: "Musique", effects: "Effets", ambience: "Ambiances", ui: "Interface" },
+      openSettings: "Ouvrir les paramètres",
+      expressLink: "Version classique",
+      expressLinkShort: "Classique",
+    },
+    express: {
+      title: "Version classique",
+      tagline: "Tout le portfolio sur une page simple, sans 3D.",
+      skipLink: "Aller au contenu",
+      navLabel: "Sections",
+      languageLabel: "Langue",
+      backTo3D: "Retour à l'île 3D",
+      footer: "Réalisé par Tommy PREEL",
+      soundCredits: "Sons : Kenney, Juhani Junkala, MintoDog (CC0) · Décollage de jet par dklon (CC-BY 3.0)",
+    },
+    loading: {
+      title: "Chargement de l'île",
+      hint: "Préparation de la scène 3D",
+      ready: "Prêt",
+      timedOut: "La 3D met du temps à charger. La version classique contient tout, tout de suite.",
+    },
+    prompt: {
+      open: "Ouvrir",
+      tapToOpen: "Touchez pour ouvrir",
+      enterKey: "Entrée",
+    },
+    mobile: {
+      joystick: "Joystick de conduite",
+      boost: "Boost",
+    },
+    hud: {
+      map: "Carte",
     },
     escapeMenu: {
+      menuTitle: "Menu",
       tabHome: "Accueil",
       tabControls: "Contrôles",
       tabSettings: "Paramètres",
       tabMap: "Carte",
       controlOr: "ou",
       mapYourPosition: "Votre position",
-      mapTeleportHint: "Cliquez sur une zone pour vous téléporter",
+      mapTeleportHint: "Choisissez une zone pour vous téléporter",
       controls: [
         { keys: "WASD / ZQSD", action: "Se déplacer" },
         { keys: "SHIFT", action: "Boost" },
@@ -476,9 +674,9 @@ const FR: Content = {
     hwAccelWarning: {
       title: "Activer l'accélération matérielle",
       description:
-        "Ce site utilise le rendu 3D WebGL. Sans l'accélération matérielle activée dans votre navigateur, vous risquez de rencontrer des lags ou de mauvaises performances.",
-      chrome: "Chrome / Edge : Paramètres → Système → Utiliser l'accélération matérielle si disponible",
-      firefox: "Firefox : about:config → layers.acceleration.force-enabled → true",
+        "Ce site affiche la 3D avec WebGL. Si l'accélération matérielle est désactivée dans votre navigateur, ça peut ramer.",
+      chrome: "Chrome / Edge : Paramètres > Système > Utiliser l'accélération matérielle si disponible",
+      firefox: "Firefox : about:config > layers.acceleration.force-enabled > true",
       edge: "Redémarrez ensuite votre navigateur et rechargez la page.",
       dismissButton: "Compris, continuer",
     },

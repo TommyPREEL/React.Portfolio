@@ -1,161 +1,158 @@
 // =====================================================
 // CONTENT PANEL COMPONENT
-// Displays section content in a clean, readable format
-// Supports: About, Projects, Skills, Contact sections
+// Terminal readout for About / Projects / Skills / Contact.
+// Always 2D (readability, accessibility).
 // =====================================================
 
+import { useEffect, useRef, useId } from "react";
 import { type Content } from "../i18n";
+import { ProjectCard } from "./ui/ProjectCard";
+import { ArrowIcon, CloseIcon, ExternalLinkIcon } from "./ui/icons";
+import { useDialog } from "./ui/useDialog";
+import styles from "./ui/ContentPanel.module.css";
 
 interface ContentPanelProps {
   section: string | null;
   content: Content;
   onBack: () => void;
+  /** Project to highlight when the panel is opened from a 3D object (see i18n project ids). */
+  focusProjectId?: string | null;
 }
 
-// =====================================================
-// RENDER ABOUT SECTION
-// =====================================================
+type SectionKey = "about" | "projects" | "skills" | "contact";
 
-const renderAbout = (content: Content) => (
-  <div className="content-about">
-    <h1>{content.about.title}</h1>
-    <p className="description">{content.about.description}</p>
-    <div className="highlights">
-      <h3>{content.ui.contentPanel.keyHighlights}</h3>
-      <ul>
-        {content.about.highlights.map((highlight, index) => (
-          <li key={index}>{highlight}</li>
-        ))}
-      </ul>
-    </div>
-    <a
-      href={content.about.cvLink}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="cv-link"
-    >
-      {content.about.cvLabel} →
+const isSection = (value: string): value is SectionKey =>
+  value === "about" || value === "projects" || value === "skills" || value === "contact";
+
+const renderAbout = (content: Content, titleId: string) => (
+  <>
+    <h1 id={titleId} className={styles.title}>{content.about.title}</h1>
+    <p className={styles.lead}>{content.about.description}</p>
+    <h2 className={styles.subtitle}>{content.ui.contentPanel.keyHighlights}</h2>
+    <ul className={styles.list}>
+      {content.about.highlights.map((highlight) => (
+        <li key={highlight}>{highlight}</li>
+      ))}
+    </ul>
+    <a className={styles.primary} href={content.about.cvLink} target="_blank" rel="noopener noreferrer">
+      {content.about.cvLabel}
+      <ArrowIcon size={18} />
     </a>
-  </div>
+  </>
 );
 
-// =====================================================
-// RENDER PROJECTS SECTION
-// =====================================================
-
-const renderProjects = (content: Content) => (
-  <div className="content-projects">
-    <h1>{content.projects.title}</h1>
-    <p className="description">{content.projects.description}</p>
-    <div className="projects-grid">
-      {content.projects.items.map((project, index) => (
-        <div key={index} className="project-card">
-          <h3>{project.name}</h3>
-          <p>{project.description}</p>
-          <div className="technologies">
-            {project.technologies.map((tech, techIndex) => (
-              <span key={techIndex} className="tech-badge">
-                {tech}
-              </span>
-            ))}
-          </div>
-          {project.link && (
-            <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-link">
-              {content.ui.contentPanel.learnMore}
-            </a>
-          )}
-        </div>
+const renderProjects = (content: Content, titleId: string, focusId: string | null) => (
+  <>
+    <h1 id={titleId} className={styles.title}>{content.projects.title}</h1>
+    <p className={styles.lead}>{content.projects.description}</p>
+    <div className={styles.grid}>
+      {content.projects.items.map((project) => (
+        <ProjectCard
+          key={project.id}
+          project={project}
+          content={content}
+          highlighted={project.id === focusId}
+        />
       ))}
     </div>
-  </div>
+  </>
 );
 
-// =====================================================
-// RENDER SKILLS SECTION
-// =====================================================
-
-const renderSkills = (content: Content) => (
-  <div className="content-skills">
-    <h1>{content.skills.title}</h1>
-    <p className="description">{content.skills.description}</p>
-    <div className="skills-grid">
-      {content.skills.categories.map((category, index) => (
-        <div key={index} className="skill-category">
-          <h3>{category.name}</h3>
-          <ul>
-            {category.items.map((skill, skillIndex) => (
-              <li key={skillIndex}>{skill}</li>
+const renderSkills = (content: Content, titleId: string) => (
+  <>
+    <h1 id={titleId} className={styles.title}>{content.skills.title}</h1>
+    <p className={styles.lead}>{content.skills.description}</p>
+    <div className={styles.grid}>
+      {content.skills.categories.map((category) => (
+        <section key={category.name} className={styles.group}>
+          <h2>{category.name}</h2>
+          <ul className={styles.chips}>
+            {category.items.map((skill) => (
+              <li key={skill} className={styles.chip}>{skill}</li>
             ))}
           </ul>
-        </div>
+        </section>
       ))}
     </div>
-  </div>
+  </>
 );
 
-// =====================================================
-// RENDER CONTACT SECTION
-// =====================================================
-
-const renderContact = (content: Content) => (
-  <div className="content-contact">
-    <h1>{content.contact.title}</h1>
-    <p className="description">{content.contact.description}</p>
-    <div className="contact-methods">
-      {content.contact.methods.map((method, index) => (
+const renderContact = (content: Content, titleId: string) => (
+  <>
+    <h1 id={titleId} className={styles.title}>{content.contact.title}</h1>
+    <p className={styles.lead}>{content.contact.description}</p>
+    <div className={styles.contacts}>
+      {content.contact.methods.map((method) => (
         <a
-          key={index}
+          key={method.type}
+          className={styles.contact}
           href={method.link}
-          target="_blank"
+          target={method.link.startsWith("mailto:") ? undefined : "_blank"}
           rel="noopener noreferrer"
-          className="contact-link"
         >
-          <strong>{method.type}:</strong> {method.value}
+          <span className={styles.contactType}>{method.type}</span>
+          <span className={styles.contactValue}>
+            {method.value}
+            <ExternalLinkIcon size={18} />
+          </span>
         </a>
       ))}
     </div>
-  </div>
+  </>
 );
-
-// =====================================================
-// MAIN CONTENT PANEL COMPONENT
-// =====================================================
 
 export const ContentPanel: React.FC<ContentPanelProps> = ({
   section,
   content,
   onBack,
+  focusProjectId = null,
 }) => {
-  if (!section) return null;
+  const key = section ? section.toLowerCase() : "";
+  const valid = isSection(key);
+  const titleId = useId();
+  const ref = useRef<HTMLElement>(null);
+  useDialog(ref, onBack);
 
-  let sectionContent = null;
+  // Scroll the opened project into view (and let the highlight show where it is).
+  useEffect(() => {
+    if (!valid || key !== "projects" || !focusProjectId) return;
+    const el = document.getElementById("project-" + focusProjectId);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el?.scrollIntoView({ block: "center", behavior: reduced ? "auto" : "smooth" });
+  }, [valid, key, focusProjectId]);
 
-  switch (section.toLowerCase()) {
+  if (!valid) return null;
+
+  let body = null;
+  switch (key) {
     case "about":
-      sectionContent = renderAbout(content);
+      body = renderAbout(content, titleId);
       break;
     case "projects":
-      sectionContent = renderProjects(content);
+      body = renderProjects(content, titleId, focusProjectId);
       break;
     case "skills":
-      sectionContent = renderSkills(content);
+      body = renderSkills(content, titleId);
       break;
     case "contact":
-      sectionContent = renderContact(content);
+      body = renderContact(content, titleId);
       break;
-    default:
-      return null;
   }
 
   return (
-    <div className="ui-overlay">
-      <button className="btn-close" onClick={onBack} aria-label="Close">
-        ✕
+    <section
+      ref={ref}
+      className={styles.panel + " cut"}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      tabIndex={-1}
+    >
+      <button type="button" className={styles.close} onClick={onBack} aria-label={content.ui.settings.close}>
+        <CloseIcon size={22} />
       </button>
-      <div className="content-container">
-        {sectionContent}
-      </div>
-    </div>
+      <div className={styles.scroll}>{body}</div>
+    </section>
   );
 };
 

@@ -1,37 +1,71 @@
-/**
- * SettingsPanel component styles
- * Gear button that opens the Escape Menu
- */
-
-/* ---- Gear trigger button ---- */
-.gearButton {
+.group {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 9000;
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  border: 2px solid rgba(59, 130, 246, 0.6);
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(10px);
-  color: #94a3b8;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
+  top: calc(var(--space-4) + var(--safe-top));
+  left: calc(var(--space-4) + var(--safe-left));
+  z-index: var(--z-hud);
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  transition: border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-  box-shadow: 0 0 16px rgba(59, 130, 246, 0.2);
+  gap: var(--space-2);
+  max-width: calc(100vw - 2 * var(--space-3) - var(--safe-left) - var(--safe-right));
+}
+
+.gearButton,
+.expressButton {
+  min-width: var(--hit);
+  min-height: var(--hit);
+  background: var(--matter-800);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.gearButton {
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.expressButton {
+  padding: 0 var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  letter-spacing: var(--track);
+  color: var(--cyan);
+}
+
+.labelShort {
+  display: none;
+}
+
+.gearButton:hover,
+.expressButton:hover {
+  border-color: var(--cyan);
 }
 
 .gearButton:hover {
-  border-color: #3b82f6;
-  color: #e2e8f0;
-  box-shadow: 0 0 24px rgba(59, 130, 246, 0.45);
+  transform: rotate(30deg);
+}
+
+@media (max-width: 768px) {
+  .group {
+    top: calc(var(--space-3) + var(--safe-top));
+    left: calc(var(--space-3) + var(--safe-left));
+    flex-wrap: nowrap;
+  }
+
+  .expressButton {
+    white-space: nowrap;
+  }
+
+  .labelFull {
+    display: none;
+  }
+
+  .labelShort {
+    display: inline;
+  }
 }

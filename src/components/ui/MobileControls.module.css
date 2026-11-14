@@ -1,27 +1,21 @@
-/**
- * MobileControls — virtual joystick + action buttons
- * Only visible on touch devices (handled via JS, hidden on desktop)
- */
+/* MobileControls: virtual joystick + contextual action + boost (touch devices only) */
 
 .controls {
   position: fixed;
-  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 160px;
+  right: 0;
+  bottom: 0;
+  min-height: var(--stack-controls);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 0 24px 28px;
+  gap: var(--space-4);
+  padding: 0 calc(var(--controls-pad) + var(--safe-right)) calc(var(--controls-pad) + var(--safe-bottom))
+    calc(var(--controls-pad) + var(--safe-left));
   z-index: 500;
   pointer-events: none;
-  /* Prevent accidental scroll while using controls */
   touch-action: none;
 }
-
-/* =====================================================
-   JOYSTICK
-   ===================================================== */
 
 .joystickWrapper {
   pointer-events: auto;
@@ -30,17 +24,36 @@
 
 .joystickBase {
   position: relative;
-  width: 110px;
-  height: 110px;
+  width: var(--controls-h);
+  height: var(--controls-h);
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.75);
-  border: 2px solid rgba(59, 130, 246, 0.5);
-  box-shadow:
-    0 0 20px rgba(59, 130, 246, 0.15),
-    inset 0 0 20px rgba(0, 0, 0, 0.3);
+  background: var(--panel);
+  border: var(--border) solid var(--cyan-dim);
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* Cross-hair guides inside the base */
+.joystickBase::before,
+.joystickBase::after {
+  content: "";
+  position: absolute;
+  background: var(--line);
+}
+
+.joystickBase::before {
+  left: 50%;
+  top: 14px;
+  bottom: 14px;
+  width: 1px;
+}
+
+.joystickBase::after {
+  top: 50%;
+  left: 14px;
+  right: 14px;
+  height: 1px;
 }
 
 .joystickThumb {
@@ -48,91 +61,61 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 44px;
-  height: 44px;
+  width: var(--hit);
+  height: var(--hit);
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #60a5fa, #1d4ed8);
-  border: 2px solid rgba(147, 197, 253, 0.6);
-  box-shadow:
-    0 0 12px rgba(59, 130, 246, 0.6),
-    0 4px 8px rgba(0, 0, 0, 0.4);
-  transition: box-shadow 0.1s ease;
+  background: var(--matter-700);
+  border: 2px solid var(--cyan);
   pointer-events: none;
-  will-change: transform;
+  z-index: 1;
 }
-
-.joystickBase:active .joystickThumb {
-  box-shadow:
-    0 0 20px rgba(59, 130, 246, 0.9),
-    0 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-/* =====================================================
-   ACTION BUTTONS
-   ===================================================== */
 
 .actionButtons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  align-items: center;
+  align-items: flex-end;
+  gap: var(--space-3);
   pointer-events: auto;
-  touch-action: none;
+  min-width: 0;
 }
 
-.actionBtn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 2px solid rgba(100, 116, 139, 0.5);
-  background: rgba(15, 23, 42, 0.75);
-  color: #94a3b8;
-  font-size: 1.3rem;
-  display: flex;
+.actionPrimary {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-2);
+  min-height: 56px;
+  max-width: 100%;
+  padding: 0 var(--space-5);
+  background: var(--orange);
+  border: var(--border) solid var(--orange);
+  border-radius: var(--radius);
+  color: var(--on-accent);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  letter-spacing: var(--track);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.boostBtn {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: var(--matter-800);
+  border: 2px solid var(--cyan);
+  border-radius: 50%;
+  color: var(--cyan);
   cursor: pointer;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.boostBtn {
-  width: 48px;
-  height: 48px;
-  font-size: 1.1rem;
-  border-color: rgba(251, 191, 36, 0.4);
 }
 
 .boostBtn:active {
-  background: rgba(251, 191, 36, 0.2);
-  border-color: #fbbf24;
-  box-shadow: 0 0 16px rgba(251, 191, 36, 0.5);
-}
-
-.enterBtn {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #475569;
-  border-color: rgba(71, 85, 105, 0.4);
-}
-
-.enterBtnActive {
-  color: #fbbf24;
-  border-color: #fbbf24;
-  box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
-  background: rgba(251, 191, 36, 0.1);
-  animation: pulse 1.4s ease-in-out infinite;
-}
-
-.enterBtnActive:active {
-  background: rgba(251, 191, 36, 0.25);
-  box-shadow: 0 0 24px rgba(251, 191, 36, 0.7);
-}
-
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
-  50%       { box-shadow: 0 0 22px rgba(251, 191, 36, 0.7); }
+  background: var(--cyan);
+  color: var(--on-accent);
 }

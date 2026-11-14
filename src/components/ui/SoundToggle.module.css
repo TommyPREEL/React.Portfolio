@@ -1,0 +1,23 @@
+
+.toggle {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: var(--hit);
+  height: var(--hit);
+  padding: 0;
+  background: var(--matter-800);
+  border: var(--border) solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.toggle:hover {
+  border-color: var(--cyan);
+}
+
+.toggle[aria-pressed="true"] {
+  color: var(--cyan);
+}
